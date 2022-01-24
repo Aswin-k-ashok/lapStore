@@ -1,29 +1,32 @@
-import React,{useState,useEffect} from 'react';
+import React,{useEffect} from 'react';
 import {Link,useParams} from 'react-router-dom'
-import {Row,Col,Image,ListGroup,Card,Button, ListGroupItem} from 'react-bootstrap'
+import {useDispatch,useSelector} from 'react-redux'
+import {Row,Col,Image,ListGroup,Card,Button,} from 'react-bootstrap'
 import Rating from '../component/Rating';
-// import products from '../products';
-import axios from 'axios';
+import {listProductDetails} from '../actions/productActions' 
 
 
- function ProductScreen({match})  {
-     //     //  const product = products.find((p)=> p._id === match.params.id) old code version 5 wont work
-     //    const product = products.find((p)=> p._id === (id))
+
+
+ function ProductScreen()  {
+
      
-     const {id} = useParams()
-     const [product,setProducts] = useState({})
+    const {id} = useParams()
+     console.log(id)
+     
+     const dispatch = useDispatch()
+
+     const productDetails = useSelector(state => state.productDetails)
+     const {loading,error,product} =productDetails
 
     useEffect(()=>{
 
-        const fetchProducts = async ()=>{
-            const {data} = await axios.get(`/api/products/${(id)}`)
-            setProducts(data)
-        }
-
-        fetchProducts()
+        dispatch(listProductDetails(id))
 
 
-    },[])
+    },[dispatch,id])
+    
+    // const product = {}
 
   return(
       <>
