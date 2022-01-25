@@ -24,7 +24,7 @@ function HomeScreen() {
 return(
     <>
     <h2>new collection</h2>
-    {loading ? <Loader/> : error ? <Message/>:<Row className='my-3'>
+    {loading ? <Loader/> : error ? <Message/>:<Row className='m-3'>
             {products.map((product)=>(
         <Col sm={12} md={6} lg={4} xl={3}>
         

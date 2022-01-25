@@ -6,7 +6,7 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS
-} from '../constants/productConstats'
+} from '../constants/productConstants'
 
 export const productListReducer = (state = {products: []} , action) =>{
 switch(action.type){
@@ -35,3 +35,6 @@ switch(action.type){
         return state
 }
 }
+
+
+// done with the reducer? go and make go to the store.js
