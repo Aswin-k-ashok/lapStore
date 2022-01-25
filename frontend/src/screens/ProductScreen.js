@@ -12,7 +12,6 @@ function ProductScreen() {
 
   const { id } = useParams()
 
-
   const dispatch = useDispatch()
 
   const productDetails = useSelector((state) => state.productDetails)

@@ -19,7 +19,7 @@ const cartItemsFromStorage = localStorage.getItem('cartItems')
 
 const initialState = {
   cart: {
-    cartItems : cartItemsFromStorage
+    cartItems: cartItemsFromStorage,
   },
 }
 
@@ -32,6 +32,5 @@ const store = createStore(
 )
 
 export default store
-
 
 // don some actions 👊️ => @ actions📂️
