@@ -1,0 +1,25 @@
+.Banner iframe {
+  width: 26em;
+  height: 25em;
+}
+
+.Banner h1 {
+  font-size: 5em;
+  font-weight: 800;
+  z-index: 500;
+}
+
+.Banner #motto {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1100px) {
+  .Banner iframe {
+    width: 15em;
+    height: 15em;
+  }
+  .Banner h1 {
+    font-size: 3em;
+  }
+}

@@ -1,10 +1,11 @@
 import { React, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap'
 import Product from '../component/Product'
 import { listProducts } from '../actions/productActions'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
+import Banner from '../component/Banner'
 // import products from '../products
 
 function HomeScreen() {
@@ -16,7 +17,11 @@ function HomeScreen() {
   }, [dispatch])
 
   return (
-    <>
+    <Container>
+      <Container>
+        <Banner />
+      </Container>
+
       <h2>new collection</h2>
       {loading ? (
         <Loader />
@@ -31,7 +36,7 @@ function HomeScreen() {
           ))}
         </Row>
       )}
-    </>
+    </Container>
   )
 }
 
