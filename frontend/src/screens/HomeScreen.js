@@ -22,13 +22,13 @@ function HomeScreen() {
         <Banner />
       </Container>
 
-      <h2>new collection</h2>
+      <h2 className=''>new collection</h2>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message />
       ) : (
-        <Row className='m-3'>
+        <Row className=''>
           {products.map((product) => (
             <Col sm={12} md={6} lg={4} xl={3}>
               <Product product={product} />

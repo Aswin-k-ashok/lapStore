@@ -31,7 +31,7 @@ function CartScreen() {
   }
 
   const checkoutHandler = () => {
-    console.log('proceed to checkout')
+    navigate('/login?redirect=/shipping')
   }
 
   return (
@@ -44,10 +44,16 @@ function CartScreen() {
               your cart is empty <Link to='/'>go back</Link>
             </Message>
           ) : (
-            <ListGroup variant='flush'>
+            <ListGroup
+              variant='flush'
+              style={{ backgroundColor: '#fff', borderRadius: '10px' }}
+            >
               {cartItems.map((item) => (
-                <ListGroup.Item key={item.product}>
-                  <Row>
+                <ListGroup.Item
+                  key={item.product}
+                  style={{ borderRadius: '10px' }}
+                >
+                  <Row className='align-items-center'>
                     <Col md={2}>
                       <Image src={item.image} alt={item.name} fluid rounded />
                     </Col>
@@ -94,7 +100,7 @@ function CartScreen() {
         </Col>
 
         <Col md={4}>
-          <Card>
+          <Card style={{ borderRadius: '10px', padding: '10px' }}>
             <ListGroup variant='flush'>
               <ListGroup.Item>
                 <h2>
