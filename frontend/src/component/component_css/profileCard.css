@@ -1,0 +1,33 @@
+.profileCard {
+  background-color: #fc7670;
+  color: white;
+  font-size: 1em;
+  margin: 0;
+  padding: 10px;
+  line-height: 4em;
+  border-radius: 10px;
+}
+
+.profileCard ul {
+  list-style: none;
+}
+
+.profileCard li {
+  color: white;
+  box-shadow: none;
+  text-shadow: none;
+  font-weight: 500;
+}
+
+.profileCard i {
+  font-size: 4em;
+  margin: 0.23em;
+  background-color: #013f41;
+  color: #f3f2f5;
+  padding: 0.5em;
+  border-radius: 23%;
+}
+
+.profileCard .uName {
+  font-size: 2em;
+}

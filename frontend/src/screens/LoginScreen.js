@@ -49,6 +49,7 @@ function LoginScreen() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     rounded
+                    id='shadowInput'
                   ></Form.Control>
                 </Form.Group>
 
@@ -59,6 +60,7 @@ function LoginScreen() {
                     placeholder='your password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    id='shadowInput'
                   ></Form.Control>
                 </Form.Group>
 
