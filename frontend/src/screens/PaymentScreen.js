@@ -11,17 +11,16 @@ import { savePaymentMethod } from '../actions/cartActions'
 function PaymentScreen() {
   const cart = useSelector((state) => state.cart)
   const { shippingAddress } = cart
-  console.log(cart)
 
   const navigate = useNavigate()
   const location = useLocation()
-  const dispatch = useDispatch()
 
   if (!shippingAddress) {
     navigate('/shipping')
   }
 
-  const [paymentMethod, setPaymentMethod] = useState('cod')
+  const [paymentMethod, setPaymentMethod] = useState('')
+  const dispatch = useDispatch()
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -38,13 +37,23 @@ function PaymentScreen() {
           <Form.Label as='legend'>select method</Form.Label>
         </Form.Group>
 
-        <Col>
+        <Col className='mr-auto'>
           <Form.Check
             type='radio'
             label='cash on delevery'
             id='cod'
             name='paymentMethod'
             value='cod'
+            checked
+            onChange={(e) => setPaymentMethod(e.target.value)}
+          ></Form.Check>
+
+          <Form.Check
+            type='radio'
+            label='Razorpay'
+            id='razorpay'
+            name='paymentMethod'
+            value='razorpay'
             checked
             onChange={(e) => setPaymentMethod(e.target.value)}
           ></Form.Check>

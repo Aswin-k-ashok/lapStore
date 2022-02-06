@@ -2,14 +2,15 @@ import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generatrateToken.js'
 import User from '../models/userModel.js'
 
-// @desc  Auth user with JWT
+// @desc  Auth user - login
 // @route POST/api/users/login
 // @access public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
   const user = await User.findOne({ email })
-  if (user && (await user.matchPassword(password))) {
+  const activeUser = user.isActive
+  if (user && activeUser && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       name: user.name,
@@ -36,6 +37,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       phone: user.phone,
       address: user.address,
       isAdmin: user.isAdmin,
+      isActive: user.isActive,
     })
   } else {
     res.status(404)
@@ -68,6 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       phone: user.phone,
       isAdmin: user.isAdmin,
+      isActive: user.isActive,
       token: generateToken(user._id),
     })
   } else {
@@ -106,4 +109,50 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, getUserProfile, registerUser, updateUserProfile }
+//@desc  get all users in admin screen
+//@route GET/api/users
+//@access private/admin
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+  res.json(users)
+})
+
+//@desc  get a single user by id
+//@route GET/api/users/:id
+//@access private/admin
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select('-password')
+  if (user) {
+    res.json(user)
+  } else {
+    res.status(404)
+    throw new Error('user not found')
+  }
+})
+
+//@desc  Update user
+//@route PUT/api/users/:id
+//@access private/admin
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+  console.log(user)
+  if (user) {
+    user.isActive = !user.isActive
+    const updadatedUser = await user.save()
+    if (user.isActive == true) {
+      res.json({ message: 'user unblocked', updadatedUser })
+    } else {
+      res.json({ message: 'user is blocked', updadatedUser })
+    }
+  }
+})
+
+export {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getUsers,
+  getUserById,
+  updateUser,
+}

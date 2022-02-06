@@ -6,11 +6,18 @@ import Message from '../component/Message'
 import Loader from '../component/Loader'
 import CheckoutSteps from '../component/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
+import { USER_DETAILS_RESET } from '../constants/userConstants'
 
 function PlaceOrderScreen() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const cart = useSelector((state) => state.cart)
+
+  if (!cart.shippingAddress.address) {
+    navigate('/shipping')
+  } else if (!cart.paymentMethod) {
+    navigate('/payment')
+  }
 
   //calculate prices
   const addDecimals = (num) => {
@@ -33,6 +40,7 @@ function PlaceOrderScreen() {
   useEffect(() => {
     if (success) {
       navigate(`/order/${order._id}`)
+      dispatch({ type: USER_DETAILS_RESET })
 
       console.log('order placed')
     }

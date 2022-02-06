@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Row, Col, Form, Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
 import ProfileCard from '../component/ProfileCard'
 import { getUserDetails, updateUserProfile } from '../actions/userAction'
+import { listMyOrders } from '../actions/orderActions'
 
 function ProfileScreen() {
   const [name, setName] = useState('')
@@ -31,12 +33,16 @@ function ProfileScreen() {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
   const { success } = userUpdateProfile
 
+  const orderListMy = useSelector((state) => state.orderListMy)
+  const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/login')
     } else {
       if (!user.name) {
         dispatch(getUserDetails('profile'))
+        dispatch(listMyOrders())
       } else {
         setName(user.name)
         setEmail(user.email)
@@ -44,7 +50,15 @@ function ProfileScreen() {
         setAddress(user.address)
       }
     }
-  }, [userDetails, location, navigate, dispatch, userLogin, profileCard])
+  }, [
+    userDetails,
+    location,
+    navigate,
+    dispatch,
+    userLogin,
+    profileCard,
+    userUpdateProfile,
+  ])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -79,6 +93,9 @@ function ProfileScreen() {
                 <li>Email : {user.email}</li>
                 <li>Phone : {user.phone}</li>
                 <li>Address : {user.address}</li>
+                <li>
+                  <Button>DashBoard</Button>
+                </li>
               </ul>
             </Row>
           </div>
@@ -180,7 +197,7 @@ function ProfileScreen() {
 
         <Row className='d-flex align-items-center justify-content-center'>
           <Button
-            className='rounded my-3 auto '
+            className='rounded my-3 auto btn-sm w-50'
             onClick={() => setProfileCard(!profileCard)}
           >
             {profileCard ? <i>update Profile</i> : <i>show profile</i>}
@@ -189,7 +206,55 @@ function ProfileScreen() {
       </Col>
 
       <Col md={8}>
-        <h2>my orders</h2>
+        <h2>My Orders</h2>
+        {loadingOrders ? (
+          <Loader />
+        ) : errorOrders ? (
+          <Message variant='danger'>{errorOrders}</Message>
+        ) : (
+          <Table striped bordered hover responsive className='table-sm rounded'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order._id}</td>
+                  <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>{order.totalPrice}</td>
+                  <td>
+                    {order.isPaid ? (
+                      order.paidAt.substring(0, 10)
+                    ) : (
+                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    {order.isDelivered ? (
+                      order.deliveredAt.substring(0, 10)
+                    ) : (
+                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer to={`/order/${order._id}`}>
+                      <Button className='btn-sm rounded' variant='info'>
+                        Details
+                      </Button>
+                    </LinkContainer>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   )
