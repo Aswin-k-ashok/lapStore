@@ -69,16 +69,16 @@ function ProductEditScreen() {
     )
   }
 
-  console.log(name, price)
+  console.log(name, price, productId)
 
   return (
     <>
       <FormContainer>
         <h1>Edit Product</h1>
 
-        {loading ? (
+        {loadingUpdate ? (
           <Loader />
-        ) : error ? (
+        ) : errorUpdate ? (
           <Message>{error}</Message>
         ) : (
           <Form onSubmit={submitHandler}>

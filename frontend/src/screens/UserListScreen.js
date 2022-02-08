@@ -37,7 +37,7 @@ function UserListScreen() {
     } else {
       navigate('/')
     }
-  }, [dispatch, navigate, userInfo])
+  }, [dispatch, navigate, isActive, blockUser])
 
   const blockHandler = (id) => {
     if (window.confirm('do you want to block this user')) {

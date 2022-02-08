@@ -131,13 +131,14 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       type: PRODUCT_UPDATE_REQUEST,
     })
     console.log(product)
+    console.log(product.name)
     const {
       userLogin: { userInfo },
     } = getState()
 
     const config = {
       headers: {
-        'Content-Type': 'applicaton/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     }

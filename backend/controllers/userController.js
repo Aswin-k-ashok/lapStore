@@ -130,7 +130,7 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 })
 
-//@desc  Update user
+//@desc  block user
 //@route PUT/api/users/:id
 //@access private/admin
 const updateUser = asyncHandler(async (req, res) => {
