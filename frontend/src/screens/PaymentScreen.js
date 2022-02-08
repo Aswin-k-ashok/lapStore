@@ -19,7 +19,7 @@ function PaymentScreen() {
     navigate('/shipping')
   }
 
-  const [paymentMethod, setPaymentMethod] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('paypal')
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
@@ -50,10 +50,10 @@ function PaymentScreen() {
 
           <Form.Check
             type='radio'
-            label='Razorpay'
-            id='razorpay'
+            label='paypal'
+            id='paypal'
             name='paymentMethod'
-            value='razorpay'
+            value='pypal'
             checked
             onChange={(e) => setPaymentMethod(e.target.value)}
           ></Form.Check>

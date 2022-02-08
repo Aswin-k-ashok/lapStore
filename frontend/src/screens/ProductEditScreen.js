@@ -12,7 +12,7 @@ function ProductEditScreen() {
   const { id } = useParams()
   const navigate = useNavigate()
   const productId = id
-  console.log(productId)
+  console.log(productId + 'edit product id')
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
@@ -69,6 +69,8 @@ function ProductEditScreen() {
     )
   }
 
+  console.log(name, price)
+
   return (
     <>
       <FormContainer>
@@ -84,7 +86,7 @@ function ProductEditScreen() {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type='Name'
-                placeholder='Enter your Name'
+                placeholder='Enter Product Name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>

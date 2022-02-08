@@ -49,8 +49,7 @@ function OrderScreen() {
       const { data: clientId } = await axios.get('/api/config/paypal')
       const script = document.createElement('script')
       script.type = 'text/javascript'
-      script.src =
-        'https://www.paypal.com/sdk/js?client-id=Ae1mBDfe-YtNxLOREFPPGu5bsyYKYQPFS43PZOeJgmzy6-Gv6beUU0SoNGI1cBn2jLB08NuiRGL3e4sL'
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
       script.async = true
       script.onload = () => {
         setSdkReady(true)
@@ -67,7 +66,7 @@ function OrderScreen() {
         setSdkReady(true)
       }
     }
-  }, [dispatch, orderId, successPay])
+  }, [dispatch, orderId, successPay, order])
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)

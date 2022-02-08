@@ -93,9 +93,6 @@ function ProfileScreen() {
                 <li>Email : {user.email}</li>
                 <li>Phone : {user.phone}</li>
                 <li>Address : {user.address}</li>
-                <li>
-                  <Button>DashBoard</Button>
-                </li>
               </ul>
             </Row>
           </div>
@@ -254,6 +251,18 @@ function ProfileScreen() {
               ))}
             </tbody>
           </Table>
+        )}
+        {user.isAdmin ? (
+          <Row>
+            <Button onClick={() => navigate('/admin/userlist')}>
+              user manage
+            </Button>
+            <Button onClick={() => navigate('/admin/productlist')}>
+              product manage
+            </Button>
+          </Row>
+        ) : (
+          <Row></Row>
         )}
       </Col>
     </Row>
