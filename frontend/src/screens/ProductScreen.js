@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css'
+import InnerImageZoom from 'react-inner-image-zoom'
+
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Rating from '../component/Rating'
 import { listProductDetails } from '../actions/productActions'
@@ -24,6 +27,7 @@ function ProductScreen() {
   const addToCartHandler = () => {
     navigate(`/cart/${id}?qty=${qty}`)
   }
+  const productImg = product.image
 
   // const product = {}
 
@@ -31,7 +35,20 @@ function ProductScreen() {
     <>
       <Row className='py-5'>
         <Col md={4}>
-          <Image src={product.image} fluid />
+          <InnerImageZoom
+            // src={imgPreview ? `${STATIC_BASE_URL}${imgPreview}` : ''}
+            // zoomSrc={imgPreview ? `${STATIC_BASE_URL}${imgPreview}` : ''}
+            src={productImg}
+            zoomSrc={productImg}
+            fullscreenOnMobile={false}
+            hasSpacer={true}
+            zoomScale={1.5}
+            moveType='pan'
+            zoomType='hover'
+            hideHint={true}
+            fadeDuration={280}
+            className='p-2'
+          />
         </Col>
 
         <Col md={4}>

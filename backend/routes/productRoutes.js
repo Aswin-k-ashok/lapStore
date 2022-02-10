@@ -12,11 +12,11 @@ import {
 
 router.route('/').get(getProducts).post(protect, admin, createProduct)
 
-router.route('/:id').get(getProductById, active)
+router.route('/:id').get(getProductById)
 
 router
   .route('/:id')
-  .get(getProductById, active)
+  .get(getProductById)
   .delete(protect, admin, deleteProduct)
   .put(protect, admin, updateProduct)
 

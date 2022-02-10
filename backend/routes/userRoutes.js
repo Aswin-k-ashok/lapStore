@@ -12,11 +12,11 @@ import {
   updateUser,
 } from '../controllers/userController.js'
 
-router.route('/').post(registerUser).get(protect, admin, active, getUsers)
+router.route('/').post(registerUser).get(protect, admin, getUsers)
 router.post('/login', authUser)
 router
   .route('/profile')
-  .get(protect, active, getUserProfile)
-  .put(protect, active, updateUserProfile)
-router.route('/:id').get(protect, admin, active, getUserById).put(updateUser)
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile)
+router.route('/:id').get(protect, admin, getUserById).put(updateUser)
 export default router

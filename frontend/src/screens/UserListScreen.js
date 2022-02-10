@@ -42,6 +42,7 @@ function UserListScreen() {
   const blockHandler = (id) => {
     if (window.confirm('do you want to block this user')) {
       dispatch(blockUser(id))
+      window.location.reload()
     }
   }
 
