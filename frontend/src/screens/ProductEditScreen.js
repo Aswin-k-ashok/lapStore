@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { Image } from 'cloudinary-react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
+import ImageUpload from '../component/ImageUpload'
 import FormContainer from '../component/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
@@ -12,7 +15,6 @@ function ProductEditScreen() {
   const { id } = useParams()
   const navigate = useNavigate()
   const productId = id
-  console.log(productId + 'edit product id')
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
@@ -21,6 +23,7 @@ function ProductEditScreen() {
   const [brand, setBrand] = useState('')
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(0)
+  const [imageSelected, setImageSelected] = useState('')
 
   const dispatch = useDispatch()
 
@@ -68,8 +71,6 @@ function ProductEditScreen() {
       })
     )
   }
-
-  console.log(name, price, productId)
 
   return (
     <>

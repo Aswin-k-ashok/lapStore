@@ -1,6 +1,6 @@
 import express, { Router } from 'express'
 const router = express.Router()
-import { protect, admin } from '../middleware/authMiddleware.js'
+import { protect, admin, active } from '../middleware/authMiddleware.js'
 
 import {
   getProducts,
@@ -12,11 +12,11 @@ import {
 
 router.route('/').get(getProducts).post(protect, admin, createProduct)
 
-router.route('/:id').get(getProductById)
+router.route('/:id').get(getProductById, active)
 
 router
   .route('/:id')
-  .get(getProductById)
+  .get(getProductById, active)
   .delete(protect, admin, deleteProduct)
   .put(protect, admin, updateProduct)
 

@@ -94,7 +94,7 @@ function UserListScreen() {
                     className='btn-sm'
                     onClick={() => blockHandler(user._id)}
                   >
-                    blockUser
+                    block / unblock user
                   </Button>
                 </td>
               </tr>

@@ -37,4 +37,12 @@ const admin = (req, res, next) => {
     throw new Error('Not authorized as admin')
   }
 }
-export { protect, admin }
+const active = (req, res, next) => {
+  if (req.user && req.user.isActive) {
+    next()
+  } else {
+    res.status(403)
+    throw new Error('you have been blocked')
+  }
+}
+export { protect, admin, active }
