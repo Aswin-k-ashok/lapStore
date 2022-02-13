@@ -8,6 +8,7 @@ import productRoute from './routes/productRoutes.js'
 import userRoute from './routes/userRoutes.js'
 import orderRoute from './routes/orderRoutes.js'
 import uploadRoute from './routes/uploadRoutes.js'
+import addressRoute from './routes/addressRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config()
@@ -26,6 +27,7 @@ app.use('/api/products', productRoute)
 app.use('/api/users', userRoute)
 app.use('/api/orders', orderRoute)
 app.use('/api/upload', uploadRoute)
+app.use('/api/address', addressRoute)
 
 app.use('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)

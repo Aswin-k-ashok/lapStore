@@ -35,6 +35,9 @@ function LoginScreen() {
     <div className='LoginBody'>
       <Row>
         {loading && <Loader />}
+        <Col md={6} sm={12} className='loginBanner'>
+          <iframe src='https://embed.lottiefiles.com/animation/41621'></iframe>{' '}
+        </Col>
 
         <Col className='rightCol'>
           <Row>

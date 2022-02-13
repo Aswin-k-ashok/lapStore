@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Image } from 'cloudinary-react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
@@ -97,6 +97,13 @@ function ProductEditScreen() {
   return (
     <>
       <FormContainer>
+        <Row>
+          <Col>
+            <Button>
+              <Link to='/admin/productlist'>go back</Link>
+            </Button>
+          </Col>
+        </Row>
         <h1>Edit Product</h1>
 
         {loadingUpdate ? (

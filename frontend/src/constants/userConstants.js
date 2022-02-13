@@ -28,4 +28,7 @@ export const USER_BLOCK_SUCCESS = 'USER_LIST_SUCCESS'
 export const USER_BLOCK_FAIL = 'USER_LIST_FAIL'
 export const USER_BLOCK_RESET = 'USER_BLOCK_RESET'
 
+export const USER_ADD_ADDRESS = 'USER_ADD_ADDRESS'
+export const USER_LIST_ADDRESS = 'USER_LIST_ADDRESS'
+
 // made the costants now go and make the reducer

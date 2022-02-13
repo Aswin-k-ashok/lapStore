@@ -76,7 +76,9 @@ function Header() {
               ) : (
                 <LinkContainer to='/login'>
                   <Nav.Link>
-                    <Button className='greenMini rounded'>log in</Button>
+                    <Button className='greenMini px-4 py-1 rounded btn-sm'>
+                      log in
+                    </Button>
                   </Nav.Link>
                 </LinkContainer>
               )}

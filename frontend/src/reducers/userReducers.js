@@ -21,6 +21,8 @@ import {
   USER_BLOCK_SUCCESS,
   USER_BLOCK_FAIL,
   USER_BLOCK_RESET,
+  USER_ADD_ADDRESS,
+  USER_LIST_ADDRESS,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -104,6 +106,17 @@ export const userBlockReducer = (state = {}, action) => {
       return { loading: false, error: action.payload }
     case USER_BLOCK_RESET:
       return {}
+    default:
+      return state
+  }
+}
+
+export const addressListReducer = (state = { addresses: [] }, action) => {
+  switch (action.type) {
+    case USER_LIST_ADDRESS:
+      return { ...state, addresses: action.payload }
+    case USER_ADD_ADDRESS:
+      return { ...state, addedAddresses: true }
     default:
       return state
   }

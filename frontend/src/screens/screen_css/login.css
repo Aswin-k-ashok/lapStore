@@ -91,7 +91,7 @@ input:focus {
 button {
   color: #61677c;
   font-weight: bold;
-  box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+  /* box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc; */
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   font-weight: 600;
@@ -146,4 +146,32 @@ button.greenMini:hover {
 .input-group label {
   margin: 0;
   flex: 1;
+}
+
+/* login banner */
+
+.loginBanner iframe {
+  width: 35em;
+  height: 35em;
+}
+
+.loginBanner h1 {
+  font-size: 5em;
+  font-weight: 800;
+  z-index: 500;
+}
+
+.loginBanner #motto {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1100px) {
+  .loginBanner iframe {
+    width: 15em;
+    height: 15em;
+  }
+  .loginBanner h1 {
+    font-size: 3em;
+  }
 }

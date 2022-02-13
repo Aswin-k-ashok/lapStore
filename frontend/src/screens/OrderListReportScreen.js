@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { PayPalButton } from 'react-paypal-button-v2'
 import {
@@ -12,47 +12,20 @@ import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
-import {
-  getOrderDetails,
-  payOrder,
-  deliverOrder,
-  cancelOrder,
-} from '../actions/orderActions'
-import {
-  ORDER_PAY_RESET,
-  ORDER_DELIVER_RESET,
-  ORDER_CANCEL_RESET,
-} from '../constants/orderConstants'
+import { getOrderDetails, payOrder } from '../actions/orderActions'
+import { ORDER_PAY_RESET } from '../constants/orderConstants'
 
-function OrderScreen() {
+function OrderListReportScreen() {
   const { id } = useParams()
   const [sdkReady, setSdkReady] = useState(false)
   const orderId = id
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
 
   const orderPay = useSelector((state) => state.orderPay)
   const { loading: loadingPay, success: successPay } = orderPay
-
-  const orderDeliver = useSelector((state) => state.orderDeliver)
-  const {
-    loading: loadingDeliver,
-    success: successDeliver,
-    error: errorDeliver,
-  } = orderDeliver
-
-  const orderCancel = useSelector((state) => state.orderCancel)
-  const {
-    loading: loadingCancel,
-    success: successCancel,
-    error: errorCancel,
-  } = orderCancel
-
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
 
   if (!loading) {
     //calculate prices
@@ -72,9 +45,6 @@ function OrderScreen() {
   }
 
   useEffect(() => {
-    if (!userInfo) {
-      navigate('/login')
-    }
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal')
       const script = document.createElement('script')
@@ -86,11 +56,8 @@ function OrderScreen() {
       }
       document.body.appendChild(script)
     }
-    if (!order || successPay || successDeliver) {
-      console.log('entered')
+    if (!order || successPay) {
       dispatch({ type: ORDER_PAY_RESET })
-      dispatch({ type: ORDER_DELIVER_RESET })
-      dispatch({ type: ORDER_CANCEL_RESET })
       dispatch(getOrderDetails(orderId))
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -99,29 +66,12 @@ function OrderScreen() {
         setSdkReady(true)
       }
     }
-  }, [dispatch, successPay, successDeliver, order, navigate, sdkReady])
+  }, [dispatch, orderId, successPay, order])
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
   }
-
-  const deliverHandler = () => {
-    dispatch(deliverOrder(order))
-  }
-
-  const cancelHandler = () => {
-    dispatch(cancelOrder(order))
-  }
-
-  console.log(
-    'order',
-    order,
-    'successPay',
-    successPay,
-    'successDeliver',
-    successDeliver
-  )
 
   return loading ? (
     <Loader />
@@ -129,11 +79,7 @@ function OrderScreen() {
     <Message>{error}</Message>
   ) : (
     <Row>
-      <Row>
-        <Col>
-          <h4>Order no: {order._id}</h4>
-        </Col>
-      </Row>
+      <h1>Order no: {order._id}</h1>
       <Col md={7}>
         <ListGroup variant='flush'>
           <ListGroup.Item className=''>
@@ -227,39 +173,10 @@ function OrderScreen() {
               <Col>rs {order.totalPrice}</Col>
             </Row>
           </ListGroup.Item>
-
-          {!order.isPaid && (
-            <ListGroup.Item>
-              {loadingPay && <Loader />}
-              {!sdkReady ? (
-                <Loader />
-              ) : (
-                <PayPalButton
-                  amount={Math.round(order.totalPrice / 75)}
-                  onSuccess={successPaymentHandler}
-                />
-              )}
-            </ListGroup.Item>
-          )}
-
-          {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-            <ListGroup.Item>
-              <Button onClick={deliverHandler}>product delivered</Button>
-            </ListGroup.Item>
-          )}
-
-          {userInfo && order.isPaid && !order.isDelivered && (
-            <ListGroup.Item>
-              <Button onClick={cancelHandler} className='btn btn-danger'>
-                {' '}
-                cancel order
-              </Button>
-            </ListGroup.Item>
-          )}
         </ListGroup>
       </Col>
     </Row>
   )
 }
 
-export default OrderScreen
+export default OrderListReportScreen

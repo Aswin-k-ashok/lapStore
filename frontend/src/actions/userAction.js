@@ -21,6 +21,8 @@ import {
   USER_BLOCK_REQUEST,
   USER_BLOCK_SUCCESS,
   USER_BLOCK_FAIL,
+  USER_LIST_ADDRESS,
+  USER_ADD_ADDRESS,
 } from '../constants/userConstants'
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 
@@ -205,6 +207,7 @@ export const blockUser = (user) => async (dispatch, getState) => {
       userLogin: { userInfo },
       id = user,
     } = getState()
+
     const config = {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
@@ -224,4 +227,38 @@ export const blockUser = (user) => async (dispatch, getState) => {
           : error.message,
     })
   }
+}
+
+export const listAddress = () => async (dispatch, getState) => {
+  const {
+    userLogin: { userInfo },
+  } = getState()
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+  }
+
+  const { data } = await axios.get(`/api/address/${userInfo._id}`, config)
+  dispatch({
+    type: USER_LIST_ADDRESS,
+    payload: data,
+  })
+}
+
+export const addToAddresses = (address) => async (dispatch, getState) => {
+  const {
+    userLogin: { userInfo },
+  } = getState()
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+  }
+
+  await axios.put(`/api/address/${userInfo._id}`, address, config)
+  dispatch({
+    type: USER_ADD_ADDRESS,
+  })
 }

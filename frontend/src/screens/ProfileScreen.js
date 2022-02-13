@@ -92,10 +92,22 @@ function ProfileScreen() {
                 <li>Name : {user.name}</li>
                 <li>Email : {user.email}</li>
                 <li>Phone : {user.phone}</li>
-                <li>Address : {user.address}</li>
+                {user.isAdmin ? (
+                  <Row>
+
+                    <li><Button className='w-100'>User Manage</Button></li>
+                    <li><Button className='w-100'>Product Manage</Button></li>
+                    <li><Button className='w-100'>Category Management</Button></li>
+                  </Row>
+
+                ) : (
+                  <Row></Row>
+                )
+                }
+
               </ul>
             </Row>
-          </div>
+          </div >
         ) : (
           <Form
             className='form-body'
@@ -190,7 +202,8 @@ function ProfileScreen() {
             {message && <Message>{message}</Message>}
             {success && <Message variant='success'>user updated</Message>}
           </Form>
-        )}
+        )
+        }
 
         <Row className='d-flex align-items-center justify-content-center'>
           <Button
@@ -200,7 +213,7 @@ function ProfileScreen() {
             {profileCard ? <i>update Profile</i> : <i>show profile</i>}
           </Button>
         </Row>
-      </Col>
+      </Col >
 
       <Col md={8}>
         <h2>My Orders</h2>
@@ -220,6 +233,7 @@ function ProfileScreen() {
                 <th></th>
               </tr>
             </thead>
+
             <tbody>
               {orders.map((order) => (
                 <tr key={order._id}>
@@ -252,6 +266,7 @@ function ProfileScreen() {
             </tbody>
           </Table>
         )}
+
         {user.isAdmin ? (
           <Row>
             <Button onClick={() => navigate('/admin/userlist')}>
@@ -265,7 +280,7 @@ function ProfileScreen() {
           <Row></Row>
         )}
       </Col>
-    </Row>
+    </Row >
   )
 }
 

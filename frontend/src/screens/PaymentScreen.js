@@ -9,22 +9,22 @@ import CheckoutSteps from '../component/CheckoutSteps'
 import { savePaymentMethod } from '../actions/cartActions'
 
 function PaymentScreen() {
-  const cart = useSelector((state) => state.cart)
-  const { shippingAddress } = cart
-
   const navigate = useNavigate()
   const location = useLocation()
+  const cart = useSelector((state) => state.cart)
+  const { shippingAddress } = cart
 
   if (!shippingAddress) {
     navigate('/shipping')
   }
 
-  const [paymentMethod, setPaymentMethod] = useState('paypal')
+  const [paymentMethod, setPaymentMethod] = useState('')
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(savePaymentMethod(paymentMethod))
+    console.log(paymentMethod)
     navigate('/placeorder')
   }
 
@@ -35,29 +35,27 @@ function PaymentScreen() {
       <Form onSubmit={submitHandler}>
         <Form.Group>
           <Form.Label as='legend'>select method</Form.Label>
+
+          <Col>
+            <Form.Check
+              type='radio'
+              label='cash on delevery'
+              id='cod'
+              name='paymentMethod'
+              value='cash on delivery'
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+
+            <Form.Check
+              type='radio'
+              label='paypal'
+              id='paypal'
+              name='paymentMethod'
+              value='PayPal'
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+          </Col>
         </Form.Group>
-
-        <Col className='mr-auto'>
-          <Form.Check
-            type='radio'
-            label='cash on delevery'
-            id='cod'
-            name='paymentMethod'
-            value='cod'
-            checked
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          ></Form.Check>
-
-          <Form.Check
-            type='radio'
-            label='paypal'
-            id='paypal'
-            name='paymentMethod'
-            value='pypal'
-            checked
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          ></Form.Check>
-        </Col>
 
         <Button type='submit'>continue</Button>
       </Form>
