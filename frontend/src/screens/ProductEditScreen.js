@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Image } from 'cloudinary-react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Row, Col, ListGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
 import ImageUpload from '../component/ImageUpload'
 import FormContainer from '../component/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
+import { listCategory } from '../actions/categoryActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 
 function ProductEditScreen() {
@@ -37,6 +38,14 @@ function ProductEditScreen() {
     success: successUpdate,
   } = productUpdate
 
+  const categoryList = useSelector((state) => state.categoryList)
+  console.log(categoryList)
+  const {
+    loading: categoryLoading,
+    error: categoryError,
+    category: categories,
+  } = categoryList
+
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET })
@@ -44,6 +53,7 @@ function ProductEditScreen() {
     } else {
       if (!product.name || product._id !== productId) {
         dispatch(listProductDetails(productId))
+        dispatch(listCategory())
       } else {
         setName(product.name)
         setPrice(product.price)
@@ -169,15 +179,25 @@ function ProductEditScreen() {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='category'>
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Product Category'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <Form.Label>category</Form.Label>
+            <ListGroup.Item className='py-1 bg-transparent border-0'>
+              <Row>
+                <Col>
+                  <Form.Control
+                    as='select'
+                    value='select'
+                    placeholder='select'
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    {categories.map((x) => (
+                      <option key={x._id} value={x.name}>
+                        {x.name}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Col>
+              </Row>
+            </ListGroup.Item>
 
             <Form.Group controlId='countInStock'>
               <Form.Label>Stock Count</Form.Label>

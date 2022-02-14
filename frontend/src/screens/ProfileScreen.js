@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
 import ProfileCard from '../component/ProfileCard'
+import UserListScreen from '../screens/UserListScreen'
+import ProductListScreen from './ProductListScreen'
+import AddCategoryScreen from './AddCategoryScreen'
 import { getUserDetails, updateUserProfile } from '../actions/userAction'
 import { listMyOrders } from '../actions/orderActions'
 
@@ -18,6 +21,10 @@ function ProfileScreen() {
   const [address, setAddress] = useState()
   const [message, setMessage] = useState(null)
   const [profileCard, setProfileCard] = useState(true)
+
+  const [usermanage, setUsermanage] = useState(false)
+  const [productmanage, setProductmanage] = useState(false)
+  const [categorymanagement, setCategorymanagement] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -94,20 +101,40 @@ function ProfileScreen() {
                 <li>Phone : {user.phone}</li>
                 {user.isAdmin ? (
                   <Row>
+                    <li>
+                      <Button
+                        className='w-100'
+                        onClick={() => setUsermanage(!usermanage)}
+                      >
+                        user manage
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        className='w-100'
+                        onClick={() => setProductmanage(!productmanage)}
+                      >
+                        product manage
+                      </Button>
+                    </li>
 
-                    <li><Button className='w-100'>User Manage</Button></li>
-                    <li><Button className='w-100'>Product Manage</Button></li>
-                    <li><Button className='w-100'>Category Management</Button></li>
+                    <li>
+                      <Button
+                        className='w-100'
+                        onClick={() =>
+                          setCategorymanagement(!categorymanagement)
+                        }
+                      >
+                        Category Management
+                      </Button>
+                    </li>
                   </Row>
-
                 ) : (
                   <Row></Row>
-                )
-                }
-
+                )}
               </ul>
             </Row>
-          </div >
+          </div>
         ) : (
           <Form
             className='form-body'
@@ -202,8 +229,7 @@ function ProfileScreen() {
             {message && <Message>{message}</Message>}
             {success && <Message variant='success'>user updated</Message>}
           </Form>
-        )
-        }
+        )}
 
         <Row className='d-flex align-items-center justify-content-center'>
           <Button
@@ -213,7 +239,7 @@ function ProfileScreen() {
             {profileCard ? <i>update Profile</i> : <i>show profile</i>}
           </Button>
         </Row>
-      </Col >
+      </Col>
 
       <Col md={8}>
         <h2>My Orders</h2>
@@ -267,20 +293,21 @@ function ProfileScreen() {
           </Table>
         )}
 
-        {user.isAdmin ? (
-          <Row>
-            <Button onClick={() => navigate('/admin/userlist')}>
-              user manage
-            </Button>
-            <Button onClick={() => navigate('/admin/productlist')}>
-              product manage
-            </Button>
-          </Row>
+        {user.isAdmin ? <Row></Row> : <Row></Row>}
+      </Col>
+
+      <Col md={8}>
+        {usermanage ? (
+          <UserListScreen />
+        ) : productmanage ? (
+          <ProductListScreen />
+        ) : categorymanagement ? (
+          <AddCategoryScreen />
         ) : (
-          <Row></Row>
+          <></>
         )}
       </Col>
-    </Row >
+    </Row>
   )
 }
 

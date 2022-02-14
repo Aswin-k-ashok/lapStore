@@ -20,6 +20,9 @@ import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import OrderListReportScreen from './screens/OrderListReportScreen'
+import AddCategoryScreen from './screens/AddCategoryScreen'
+import CategoryListScreen from './screens/CategoryListScreen'
+
 function App() {
   return (
     <Router>
@@ -48,10 +51,13 @@ function App() {
             path='/admin/orderDetails/:id'
             element={<OrderListReportScreen />}
           />
+          <Route path='/admin/addcategory' element={<AddCategoryScreen />} />
+          <Route path='/admin/listcategory' element={<CategoryListScreen />} />
+
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   )
 }

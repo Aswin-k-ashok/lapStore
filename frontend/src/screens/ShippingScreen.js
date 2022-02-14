@@ -8,6 +8,7 @@ import Loader from '../component/Loader'
 import CheckoutSteps from '../component/CheckoutSteps'
 import { saveShippingAddress } from '../actions/cartActions'
 import { listAddress, addToAddresses } from '../actions/userAction'
+import '../screens/screen_css/ShippingScreen.css'
 
 function ShippingScreen() {
   const cart = useSelector((state) => state.cart)
@@ -122,12 +123,15 @@ function ShippingScreen() {
                 }}
                 className='my-1 p-3 bg-dark rounded mb-3'
               >
-                <Card.Body>
-                  <Card.Text as='div'>address: {address.address}</Card.Text>
-                  <Card.Text as='div'>city: {address.city}</Card.Text>
-                  <Card.Text as='div'>pin: {address.postalCode}</Card.Text>
-                  <Card.Text as='div'>country: {address.country}</Card.Text>
-                </Card.Body>
+                <div className='addressOverlay'>
+                  <Card.Body>
+                    <Card.Text as='div'>address: {address.address}</Card.Text>
+                    <Card.Text as='div'>city: {address.city}</Card.Text>
+                    <Card.Text as='div'>pin: {address.postalCode}</Card.Text>
+                    <Card.Text as='div'>country: {address.country}</Card.Text>
+                  </Card.Body>
+                  <h4>deliver to this address</h4>
+                </div>
               </Card>
             </Col>
           ))}

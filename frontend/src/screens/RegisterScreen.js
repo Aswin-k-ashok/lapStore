@@ -73,7 +73,7 @@ function RegisterScreen() {
                 </Form.Group>
 
                 <Form.Group contolId='phone'>
-                  <Form.Label>Email Address</Form.Label>
+                  <Form.Label>Phone Number</Form.Label>
                   <Form.Control
                     type='number'
                     placeholder='phone number'
