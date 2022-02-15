@@ -137,12 +137,16 @@ const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id)
   console.log(user)
   if (user) {
-    user.isActive = !user.isActive
-    const updadatedUser = await user.save()
-    if (user.isActive == true) {
-      res.json({ message: 'user unblocked', updadatedUser })
+    if (user.isAdmin) {
+      res.json({ message: 'cannot block admin', updadatedUser })
     } else {
-      res.json({ message: 'user is blocked', updadatedUser })
+      user.isActive = !user.isActive
+      const updadatedUser = await user.save()
+      if (user.isActive == true) {
+        res.json({ message: 'user unblocked', updadatedUser })
+      } else {
+        res.json({ message: 'user is blocked', updadatedUser })
+      }
     }
   }
 })

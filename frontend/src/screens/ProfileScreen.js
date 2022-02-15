@@ -87,7 +87,7 @@ function ProfileScreen() {
 
   return (
     <Row>
-      <Col md={4}>
+      <Col md={4} sm={12}>
         {profileCard ? (
           <div>
             <Row className='profileCard'>
@@ -242,7 +242,7 @@ function ProfileScreen() {
       </Col>
 
       {!user.isAdmin ? (
-        <Col md={8}>
+        <Col md={8} sm={12}>
           <h2>My Orders</h2>
           {loadingOrders ? (
             <Loader />
@@ -311,7 +311,7 @@ function ProfileScreen() {
       )}
 
       {user.isAdmin ? (
-        <Col md={8}>
+        <Col md={8} sm={12}>
           {usermanage ? (
             <UserListScreen />
           ) : productmanage ? (

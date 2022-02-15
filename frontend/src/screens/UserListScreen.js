@@ -41,7 +41,12 @@ function UserListScreen() {
 
   const blockHandler = (id) => {
     if (window.confirm('do you want to block this user')) {
-      dispatch(blockUser(id))
+      if (id == '61efb337a2235d74ae93af3d') {
+        alert('cannot block admin')
+      } else {
+        dispatch(blockUser(id))
+        window.location.reload()
+      }
       window.location.reload()
     }
   }
