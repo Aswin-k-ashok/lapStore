@@ -8,7 +8,14 @@ import App from './App'
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App
+      style={{
+        margin: '0',
+        padding: '0',
+        display: 'flex',
+        justfyContents: 'center',
+      }}
+    />
   </Provider>,
   document.getElementById('root')
 )

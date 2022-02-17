@@ -13,6 +13,7 @@ function UserListScreen() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [isActive, setIsActive] = useState(true)
+  const [refresh, setRefresh] = useState(true)
 
   const userList = useSelector((state) => state.userList)
   const { loading, error, users } = userList
@@ -30,14 +31,16 @@ function UserListScreen() {
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       if (successBlock) {
+        setRefresh(false)
         dispatch({ type: USER_BLOCK_RESET })
       } else {
         dispatch(listUsers())
+        setRefresh(false)
       }
     } else {
       navigate('/')
     }
-  }, [dispatch, navigate, isActive, blockUser])
+  }, [dispatch, navigate, isActive, blockUser, refresh])
 
   const blockHandler = (id) => {
     if (window.confirm('do you want to block this user')) {
@@ -45,9 +48,7 @@ function UserListScreen() {
         alert('cannot block admin')
       } else {
         dispatch(blockUser(id))
-        window.location.reload()
       }
-      window.location.reload()
     }
   }
 

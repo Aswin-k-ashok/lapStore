@@ -85,9 +85,27 @@ function ProfileScreen() {
     }
   }
 
+  const prodManage = () => {
+    setProductmanage(true)
+    setUsermanage(false)
+    setCategorymanagement(false)
+  }
+
+  const catManage = () => {
+    setCategorymanagement(true)
+    setProductmanage(false)
+    setUsermanage(false)
+  }
+
+  const usemanage = () => {
+    setUsermanage(true)
+    setProductmanage(false)
+    setCategorymanagement(false)
+  }
+
   return (
     <Row>
-      <Col md={4} sm={12}>
+      <Col md={2} sm={12}>
         {profileCard ? (
           <div>
             <Row className='profileCard'>
@@ -102,29 +120,18 @@ function ProfileScreen() {
                 {user.isAdmin ? (
                   <Row>
                     <li>
-                      <Button
-                        className='w-100'
-                        onClick={() => setUsermanage(!usermanage)}
-                      >
+                      <Button className='w-100' onClick={() => usemanage()}>
                         user manage
                       </Button>
                     </li>
                     <li>
-                      <Button
-                        className='w-100'
-                        onClick={() => setProductmanage(!productmanage)}
-                      >
+                      <Button className='w-100' onClick={() => prodManage()}>
                         product manage
                       </Button>
                     </li>
 
                     <li>
-                      <Button
-                        className='w-100'
-                        onClick={() =>
-                          setCategorymanagement(!categorymanagement)
-                        }
-                      >
+                      <Button className='w-100' onClick={() => catManage()}>
                         Category Management
                       </Button>
                     </li>
@@ -242,7 +249,7 @@ function ProfileScreen() {
       </Col>
 
       {!user.isAdmin ? (
-        <Col md={8} sm={12}>
+        <Col md={10} sm={12}>
           <h2>My Orders</h2>
           {loadingOrders ? (
             <Loader />
@@ -311,7 +318,7 @@ function ProfileScreen() {
       )}
 
       {user.isAdmin ? (
-        <Col md={8} sm={12}>
+        <Col md={10} sm={12}>
           {usermanage ? (
             <UserListScreen />
           ) : productmanage ? (

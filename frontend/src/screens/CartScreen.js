@@ -1,6 +1,15 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Form,
+  Button,
+  Card,
+  Container,
+} from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import Message from '../component/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
@@ -35,7 +44,7 @@ function CartScreen() {
   }
 
   return (
-    <>
+    <Container>
       <Row>
         <Col md={8}>
           <h1>SHOPPING CART</h1>
@@ -128,7 +137,7 @@ function CartScreen() {
           </Card>
         </Col>
       </Row>
-    </>
+    </Container>
   )
 }
 

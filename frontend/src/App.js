@@ -27,7 +27,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <Container>
+      <Container fluid>
         <Routes>
           <Route path='/login' element={<LoginScreen />} />
           <Route path='/register' element={<RegisterScreen />} />
@@ -40,6 +40,7 @@ function App() {
           <Route path='/placeorder' element={<PlaceOrderScreen />} />
           <Route path='/order/:id' element={<OrderScreen />} />
           <Route path='/' element={<HomeScreen />} exact />
+          <Route path='/search/:keyword' element={<HomeScreen />} />
           <Route path='/admin/userlist' element={<UserListScreen />} />
           <Route path='/admin/productlist' element={<ProductListScreen />} />
           <Route
@@ -57,7 +58,7 @@ function App() {
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Container>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   )
 }

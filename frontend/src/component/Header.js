@@ -2,14 +2,16 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Nav, Container, Navbar, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Route } from 'react-router-dom'
 import '../component/component_css/Header.css'
 import { logout } from '../actions/userAction'
 import { set } from 'mongoose'
+import SearchBox from './SearchBox'
 // import '../slate.css'
 
 function Header() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -25,7 +27,6 @@ function Header() {
         position: 'sticky',
         top: '0',
         zIndex: '700',
-        marginBottom: '2%',
       }}
     >
       <Navbar
@@ -41,6 +42,8 @@ function Header() {
 
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
+            {/* <Route render={({navigate})=><SearchBox/>} /> */}
+            <SearchBox />
             <Nav className='ms-auto'>
               <LinkContainer to='/cart' style={{ margin: 'auto' }}>
                 <Nav.Link>

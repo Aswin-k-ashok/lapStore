@@ -3,14 +3,31 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css'
 import InnerImageZoom from 'react-inner-image-zoom'
+import Message from '../component/Message'
 
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+  Container,
+} from 'react-bootstrap'
 import Rating from '../component/Rating'
-import { listProductDetails } from '../actions/productActions'
+import {
+  listProductDetails,
+  createProductReview,
+} from '../actions/productActions'
 import './screen_css/productScreen.css'
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
 function ProductScreen() {
   const [qty, setQty] = useState(1)
+  const [rating, setRating] = useState('')
+  const [comment, setComment] = useState('')
+
   const navigate = useNavigate()
 
   const { id } = useParams()
@@ -20,21 +37,59 @@ function ProductScreen() {
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
 
-  useEffect(() => {
-    dispatch(listProductDetails(id))
-  }, [dispatch, id])
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
+  const productReviewCreate = useSelector((state) => state.productReviewCreate)
+  const {
+    loading: loadingProductReview,
+    error: errorProductReview,
+    success: successProductReview,
+  } = productReviewCreate
+
+  useEffect(
+    () => {
+      if (successProductReview) {
+        alert('Review Submited !')
+        setRating(0)
+        setComment('')
+        dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
+      }
+      dispatch(listProductDetails(id))
+    },
+    [dispatch, id],
+    successProductReview
+  )
 
   const addToCartHandler = () => {
     navigate(`/cart/${id}?qty=${qty}`)
   }
   const productImg = product.image
 
+  const submitHandler = (e) => {
+    e.preventDefault()
+    dispatch(
+      createProductReview(id, {
+        rating,
+        comment,
+      })
+    )
+  }
+
   // const product = {}
 
   return (
-    <>
-      <Row className='py-5'>
-        <Col md={4}>
+    <Container>
+      <Row className='py-5 align-items-start'>
+        <Col
+          md={4}
+          style={{
+            backgroundColor: 'white',
+            padding: '18px',
+            borderRadius: '5px',
+            marginTop: '3em',
+          }}
+        >
           <InnerImageZoom
             // src={imgPreview ? `${STATIC_BASE_URL}${imgPreview}` : ''}
             // zoomSrc={imgPreview ? `${STATIC_BASE_URL}${imgPreview}` : ''}
@@ -122,7 +177,73 @@ function ProductScreen() {
           </ListGroup>
         </Col>
       </Row>
-    </>
+
+      {/* Reviews */}
+      <Row>
+        <h3 className='align-center'>Reviews</h3>
+        <Col md={6}>
+          {product.reviews.length == 0 && (
+            <Message>No Reviews For this Product</Message>
+          )}
+          <ListGroup variant='flush'>
+            <ListGroup.Item>
+              <h2>write a review</h2>
+              {userInfo ? (
+                <Form onSubmit={submitHandler} className='m-0'>
+                  <Form.Group controlId='rating'>
+                    <Form.Label>Rating</Form.Label>
+                    <Form.Control
+                      className='w-100'
+                      as='select'
+                      value={rating}
+                      onChange={(e) => setRating(e.target.value)}
+                    >
+                      <option value=''>Select...</option>
+                      <option value='1'>1 - Poor</option>
+                      <option value='2'>2 - Fair</option>
+                      <option value='3'>3 - Good</option>
+                      <option value='4'>4 - Very Good</option>
+                      <option value='5'>5 - Excellent</option>
+                    </Form.Control>
+                  </Form.Group>
+                  <Form.Group controlId='comment'>
+                    <Form.Label>Comment</Form.Label>
+                    <Form.Control
+                      className='w-100'
+                      as='textarea'
+                      row='3'
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Button
+                    disabled={loadingProductReview}
+                    type='submit'
+                    variant='primary'
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              ) : (
+                <Message>
+                  You need to <Link to='/login'>login</Link> to write a review
+                </Message>
+              )}
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
+        <Col md={6}>
+          {product.reviews.map((review) => (
+            <ListGroup.Item key={review._id}>
+              <strong>{review.name}</strong>
+              <Rating value={review.rating}></Rating>
+              <p>{review.createdAt.substring(0, 10)}</p>
+              <p>{review.comment}</p>
+            </ListGroup.Item>
+          ))}
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

@@ -31,7 +31,7 @@ button {
 div,
 p {
   color: #babecc;
-  text-shadow: 1px 1px 1px #fff;
+  /* text-shadow: 1px 1px 1px #fff; */
 }
 
 form {
@@ -54,7 +54,7 @@ input {
   border-radius: 10px;
   padding: 16px;
   background-color: #ebecf0;
-  text-shadow: 1px 1px 0 #fff;
+  /* text-shadow: 1px 1px 0 #fff; */
 }
 
 label {

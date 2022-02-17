@@ -7,7 +7,7 @@ import './component_css/Product.css'
 function Product({ product }) {
   return (
     <>
-      <Card className='my-3 p-3 rounded m-3 ' fluid id='card'>
+      <Card className='my-3 p-3 rounded  ' fluid id='card'>
         <Link to={`/product/${product._id}`} className='card-image'>
           <Card.Img
             className='card-image'
