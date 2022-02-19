@@ -16,12 +16,16 @@ const protect = asyncHandler(async (req, res, next) => {
       console.log(decoded)
 
       req.user = await User.findById(decoded.id).select('-password')
-
-      next()
+      if (req.user.isActive) {
+        next()
+      } else {
+        res.status(401)
+        throw new Error('you have been blocked')
+      }
     } catch (error) {
       console.error(error)
       res.status(401)
-      throw new Error('not authorized token filed')
+      throw new Error('Your account has been suspended')
     }
   }
   if (!token) {

@@ -5,6 +5,7 @@ import cors from 'cors'
 import colours from 'colors'
 import Razorpay from 'razorpay'
 import cloudinary from 'cloudinary'
+import fileupload from 'express-fileupload'
 import shortid from 'shortid'
 import morgan from 'morgan'
 import connectDB from './config/db.js'
@@ -14,7 +15,8 @@ import orderRoute from './routes/orderRoutes.js'
 import uploadRoute from './routes/uploadRoutes.js'
 import addressRoute from './routes/addressRoutes.js'
 import categoryRoute from './routes/categoryRoutes.js'
-import offerRoute from './routes/offerRoutes'
+import offerRoute from './routes/offerRoutes.js'
+import dashboardRoute from './routes/dashboardRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config()
@@ -27,7 +29,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }))
 
 //CLOUDINARY CONFIG
 cloudinary.config({
@@ -85,6 +87,7 @@ app.get('/', (req, res) => {
   res.send('API is active')
 })
 
+app.use('/api/products', fileupload())
 app.use('/api/products', productRoute)
 app.use('/api/users', userRoute)
 app.use('/api/orders', orderRoute)
@@ -92,6 +95,7 @@ app.use('/api/upload', uploadRoute)
 app.use('/api/address', addressRoute)
 app.use('/api/categories', categoryRoute)
 app.use('/api/offer', offerRoute)
+app.use('/api/dashboard', dashboardRoute)
 
 app.use('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)

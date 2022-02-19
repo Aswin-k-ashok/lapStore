@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Row, Col, Form, Button, Table, Container } from 'react-bootstrap'
+import { Row, Col, Form, Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
@@ -12,7 +12,7 @@ import AddCategoryScreen from './AddCategoryScreen'
 import { getUserDetails, updateUserProfile } from '../actions/userAction'
 import { listMyOrders } from '../actions/orderActions'
 
-function ProfileScreen() {
+function ProfileUpdateScreen() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -102,28 +102,99 @@ function ProfileScreen() {
     setProductmanage(false)
     setCategorymanagement(false)
   }
-
   return (
-    <Container>
-      <Row>
-        <Col md={12} sm={12}>
-          <div>
-            <Row className='profileCard'>
-              <ul>
-                <li>
-                  <i className='fas fa-user' />
-                </li>
-                <li className='uName'> HELLO {user.name}</li>
-                <li>Name : {user.name}</li>
-                <li>Email : {user.email}</li>
-                <li>Phone : {user.phone}</li>
-              </ul>
-            </Row>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Form
+        className='form-body'
+        onSubmit={submitHandler}
+        style={{
+          backgroundColor: '#fc7670',
+          padding: '2em',
+          width: '400px',
+          borderRadius: '10px',
+        }}
+      >
+        <h2>Update Profile</h2>
+        <Form.Group contolId='name'>
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='enter your name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            rounded
+            className='m-0 my-1'
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group contolId='email'>
+          <Form.Label>Email Address</Form.Label>
+          <Form.Control
+            type='email'
+            placeholder='eg: example@gmail.com'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            rounded
+            className='m-0 my-1'
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group contolId='phone'>
+          <Form.Label>phone number</Form.Label>
+          <Form.Control
+            type='number'
+            placeholder='phone number'
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            rounded
+            className='m-0 my-1'
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group contolId='address'>
+          <Form.Label>Address</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='address'
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            rounded
+            className='m-0 my-1'
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group contolId='password'>
+          <Form.Label>password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='your password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className='m-0 my-1'
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group contolId='confirmPassword'>
+          <Form.Label>confirm password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder=' confirm your password'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className='m-0 my-1'
+          ></Form.Control>
+        </Form.Group>
+
+        <Button type='submit' variant='primary' style={{ boxShadow: 'none' }}>
+          Update
+        </Button>
+
+        {error && <Message>{error}</Message>}
+        {message && <Message>{message}</Message>}
+        {success && <Message variant='success'>user updated</Message>}
+      </Form>
+    </>
   )
 }
 
-export default ProfileScreen
+export default ProfileUpdateScreen

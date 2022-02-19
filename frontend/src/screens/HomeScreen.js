@@ -1,4 +1,5 @@
 import { React, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Container } from 'react-bootstrap'
 import Product from '../component/Product'
@@ -10,8 +11,14 @@ import Banner from '../component/Banner'
 
 function HomeScreen() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const productList = useSelector((state) => state.productList)
   const { loading, error, products } = productList
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
   useEffect(() => {
     dispatch(listProducts())
   }, [dispatch])

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import Header from './component/Header'
 import HeaderNew from './component/HeaderNew'
+import DashBoard from './component/DashBoard'
 import Footer from './component/Footer'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
@@ -22,6 +23,13 @@ import OrderListScreen from './screens/OrderListScreen'
 import OrderListReportScreen from './screens/OrderListReportScreen'
 import AddCategoryScreen from './screens/AddCategoryScreen'
 import CategoryListScreen from './screens/CategoryListScreen'
+import OfferCreateScreen from './screens/OfferCreateScreen'
+import OfferEditScreen from './screens/OfferEditScreen'
+import OfferlistScreen from './screens/OfferlistScreen'
+
+import ProfileUpdateScreen from './screens/ProfileUpdateScreen'
+import OrderMyScreen from './screens/OrderMyScreen'
+import Dashboard from './screens/Dashboard'
 
 function App() {
   return (
@@ -47,6 +55,10 @@ function App() {
             path='/admin/product/:id/edit'
             element={<ProductEditScreen />}
           />
+
+          <Route path='/admin/offers/:id/edit' element={<OfferEditScreen />} />
+          <Route path='/admin/offers/create' element={<OfferCreateScreen />} />
+          <Route path='/admin/offers' element={<OfferlistScreen />} exact />
           <Route path='/admin/order' element={<OrderListScreen />} />
           <Route
             path='/admin/orderDetails/:id'
@@ -54,7 +66,7 @@ function App() {
           />
           <Route path='/admin/addcategory' element={<AddCategoryScreen />} />
           <Route path='/admin/listcategory' element={<CategoryListScreen />} />
-
+          <Route path='/test' element={<Dashboard />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Container>

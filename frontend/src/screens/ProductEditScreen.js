@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Image } from 'cloudinary-react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Form, Button, Row, Col, ListGroup } from 'react-bootstrap'
+import { Form, Button, Row, Col, ListGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
@@ -20,6 +20,7 @@ function ProductEditScreen() {
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
   const [image, setImage] = useState('')
+  const [images, setImages] = useState([])
   const [description, setDescription] = useState('')
   const [brand, setBrand] = useState('')
   const [category, setCategory] = useState('')
@@ -88,21 +89,53 @@ function ProductEditScreen() {
     }
   }
 
+  const multiFileUploadHandler = async (e) => {
+    const files = Array.from(e.target.files)
+    setImages([])
+
+    files.forEach((file) => {
+      const reader = new FileReader()
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImages((oldArray) => [...oldArray, reader.result])
+        }
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(
-      updateProduct({
-        _id: productId,
-        name,
-        price,
-        image,
-        brand,
-        category,
-        description,
-        countInStock,
-      })
-    )
+    const Test = new FormData()
+    Test.set('name', name)
+    Test.set('price', price)
+    Test.set('countInStock', countInStock)
+    Test.set('image', image)
+    Test.set('brand', brand)
+    Test.set('category', category)
+    Test.set('description', description)
+    images.forEach((image) => {
+      Test.append('images', image)
+    })
+    dispatch(updateProduct(Test, productId))
   }
+
+  // const submitHandler = (e) => {
+  //   e.preventDefault()
+  //   dispatch(
+  //     updateProduct({
+  //       _id: productId,
+  //       name,
+  //       price,
+  //       image,
+  //       brand,
+  //       category,
+  //       description,
+  //       countInStock,
+  //     })
+  //   )
+  // }
 
   return (
     <>
@@ -156,6 +189,19 @@ function ProductEditScreen() {
                 type='file'
                 onChange={uploadFileHandler}
               ></Form.Control>
+              {uploading && <Loader />}
+            </Form.Group>
+
+            <Form.Group className='py-1'>
+              <Form.Label>Add extra images</Form.Label>
+              <FormControl
+                type='file'
+                id='image-files'
+                label='Choose Files'
+                custom
+                multiple
+                onChange={multiFileUploadHandler}
+              />
               {uploading && <Loader />}
             </Form.Group>
 

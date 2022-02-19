@@ -119,6 +119,7 @@ function OrderScreen() {
   }
 
   const cancelHandler = () => {
+    window.location.reload()
     dispatch(cancelOrder(order))
   }
 

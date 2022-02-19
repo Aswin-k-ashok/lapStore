@@ -119,6 +119,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //@access private/admin
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({})
+  const userCount = users.length
+  console.log('user count', userCount)
   res.json(users)
 })
 

@@ -6,9 +6,10 @@ import {
   authUser,
   getUserProfile,
   getUsers,
+  getUserById,
+  // getUserCount,
   registerUser,
   updateUserProfile,
-  getUserById,
   updateUser,
 } from '../controllers/userController.js'
 
@@ -19,4 +20,6 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile)
 router.route('/:id').get(protect, admin, getUserById).put(updateUser)
+
+// router.route('/userCount').get(getUserCount)
 export default router

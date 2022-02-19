@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
+import cloudinary from 'cloudinary'
 
 //@desc  fetch all products form db
 //@route GET/api/products
@@ -48,7 +49,7 @@ const createProduct = asyncHandler(async (req, res) => {
     price: 0,
     user: req.user._id,
     image: 'sample.jpg',
-    // images: [],
+    images: [],
     brand: 'sample brand',
     category: 'sample category',
     countInStock: 0,
@@ -64,31 +65,35 @@ const createProduct = asyncHandler(async (req, res) => {
 //@access priveate/admin
 
 const updateProduct = asyncHandler(async (req, res) => {
+  console.log(req.body)
   const { name, price, image, description, brand, category, countInStock } =
     req.body
 
-  // let images = []
-  // if (typeof req.body.images === 'string') {
-  //   images.push(req.body.images)
-  // } else {
-  //   images = req.body.images
-  // }
+  let images = []
 
-  // let imagesLinks = []
+  if (images) {
+    if (typeof req.body.images === 'string') {
+      images.push(req.body.images)
+    } else {
+      images = req.body.images
+    }
+  }
 
-  // for (let i = 0; i < images.length; i++) {
-  //   const result = await cloudinary.v2.uploader.upload(images[i], {
-  //     folder: 'products',
-  //     // width: 150,
-  //     // height: 150,
-  //     crop: 'scale',
-  //   })
-  //   imagesLinks.push({
-  //     public_id: result.public_id,
-  //     url: result.secure_url,
-  //   })
-  // }
-  // req.body.images = imagesLinks
+  let imagesLinks = []
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: 'products',
+      // width: 150,
+      // height: 150,
+      crop: 'scale',
+    })
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    })
+  }
+  req.body.images = imagesLinks
 
   const product = await Product.findById(req.params.id)
 
@@ -96,7 +101,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.name = name
     product.price = price
     product.image = image
-    // product.extraImages = req.body.images
+    product.extraImages = req.body.images
     product.description = description
     product.brand = brand
     product.category = category

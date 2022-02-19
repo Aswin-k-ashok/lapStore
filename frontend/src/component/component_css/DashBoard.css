@@ -1,0 +1,19 @@
+.card {
+  margin: 1em;
+  width: 25em;
+  height: 13em;
+  border-radius: 5px;
+  border: none;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.card ul {
+  list-style: none;
+}
+
+.card li {
+  font-size: 2em;
+}

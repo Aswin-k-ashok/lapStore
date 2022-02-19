@@ -40,6 +40,7 @@ function Product({ product }) {
           <Card.Text as='div'>
             <div className='my3'>
               <p>{product.price} rs</p>
+              <p>{product.discountPrice}</p>
             </div>
           </Card.Text>
         </Card.Body>

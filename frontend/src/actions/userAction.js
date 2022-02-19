@@ -262,3 +262,22 @@ export const addToAddresses = (address) => async (dispatch, getState) => {
     type: USER_ADD_ADDRESS,
   })
 }
+
+// export const getUserCount = () => async (dispatch, getState) => {
+//   const {
+//     userLogin: { userInfo },
+//   } = getState()
+
+//   const config ={
+//     headers:{
+//       Authorization: `Bearer ${userInfo.token}`,
+//     },
+//   }
+
+//   await axios.get('/api/users/userCount',config)({
+//     dispatch({
+
+//     })
+//   })
+
+// }
