@@ -39,8 +39,24 @@ function Product({ product }) {
 
           <Card.Text as='div'>
             <div className='my3'>
-              <p>{product.price} rs</p>
-              <p>{product.discountPrice}</p>
+              {product.discountPrice > 0 ? (
+                <p>{product.discountPrice} % off </p>
+              ) : (
+                <></>
+              )}
+              {product.discountPrice > 0 ? (
+                <div className='d-flex m-2'>
+                  <p style={{ color: 'red', marginRight: '20px' }}>
+                    {' '}
+                    {product.price - product.discountPrice * 0.01}
+                  </p>
+                  <p style={{ textDecoration: 'line-through' }}>
+                    {product.price}
+                  </p>
+                </div>
+              ) : (
+                <p>{product.price} rs</p>
+              )}
             </div>
           </Card.Text>
         </Card.Body>
