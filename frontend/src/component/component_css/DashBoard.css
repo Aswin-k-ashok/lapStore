@@ -1,7 +1,8 @@
 .card {
   margin: 1em;
-  width: 25em;
-  height: 13em;
+  width: 100%;
+  height: auto;
+  min-height: 7.4em;
   border-radius: 5px;
   border: none;
   transition: all 0.3s ease;
@@ -16,4 +17,10 @@
 
 .card li {
   font-size: 2em;
+}
+
+@media only screen and (max-width: 600px) {
+  .card {
+    padding: none;
+  }
 }

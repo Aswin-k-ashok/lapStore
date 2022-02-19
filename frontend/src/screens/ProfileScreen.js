@@ -117,6 +117,17 @@ function ProfileScreen() {
                 <li>Name : {user.name}</li>
                 <li>Email : {user.email}</li>
                 <li>Phone : {user.phone}</li>
+                {user.isAdmin ? (
+                  <>
+                    <li>
+                      <Button className='btn btn-light'>
+                        <Link to='/test'>show dashboard</Link>
+                      </Button>
+                    </li>
+                  </>
+                ) : (
+                  <></>
+                )}
               </ul>
             </Row>
           </div>

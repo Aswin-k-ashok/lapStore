@@ -9,24 +9,33 @@ import '../component/component_css/DashBoard.css'
 function DashBoard() {
     const [userCount, setUserCount] = useState()
     const [productCount, setProductCount] = useState()
+    const [orderCount, setOrderCount] = useState()
+    const [profit, setProfit] = useState()
 
     useEffect(() => {
 
         const count = async () => {
             const { data: countUser } = await axios.get('/api/dashboard/user')
             const { data: countProduct } = await axios.get('/api/dashboard/product')
+            const { data: countOrder } = await axios.get('/api/dashboard/order')
+            const { data: productProfit } = await axios.get('/api/dashboard/profit')
 
             setUserCount(countUser)
             setProductCount(countProduct)
+            setOrderCount(countOrder)
+            setProfit(productProfit)
         }
         count()
     }, [])
 
 
     return (
-        <Container className=''>
-            <Row className='bg-secondary rounded'>
-                <h1>Dash Board</h1>
+        <Container className='bg-secondary rounded'>
+
+            <h1>Dashboard</h1>
+
+            <Row>
+
                 <Col lg={4} md={6} sm={12}>
 
                     <div className="card" style={{ backgroundColor: "#FFE5CB" }}>
@@ -36,16 +45,17 @@ function DashBoard() {
 
                         </ul>
                     </div>
+                </Col>
+                <Col lg={4} md={6} sm={12}>
 
                     <div className="card" style={{ backgroundColor: "#E9E7FD" }}>
                         <ul>
                             <li>Total Orders</li>
-                            <h1></h1>
+                            <h1>{orderCount}</h1>
 
                         </ul>
                     </div>
                 </Col>
-
 
                 <Col lg={4} md={6} sm={12}>
 
@@ -55,10 +65,17 @@ function DashBoard() {
                             <h1>{productCount}</h1>
                         </ul>
                     </div>
+                </Col>
 
+            </Row>
+
+            <Row>
+
+                <Col lg={4} md={6} sm={12}>
                     <div className="card" style={{ backgroundColor: "#FED2E2" }}>
                         <ul>
-                            <li>Total Categories</li>
+                            <li>Total Sales</li>
+                            <h1>₹ {profit}</h1>
 
                         </ul>
                     </div>
@@ -72,6 +89,9 @@ function DashBoard() {
 
                         </ul>
                     </div>
+                </Col>
+
+                <Col lg={4} md={6} sm={12}>
 
                     <div className="card" style={{ backgroundColor: "#E9E7FD" }}>
                         <ul>
@@ -81,11 +101,12 @@ function DashBoard() {
                     </div>
                 </Col>
 
-
             </Row>
 
 
-        </Container>
+
+
+        </Container >
 
 
     )

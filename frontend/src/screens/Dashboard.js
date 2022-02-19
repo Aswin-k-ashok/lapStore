@@ -24,9 +24,10 @@ import DashBoard from '../component/DashBoard'
 function Dashboard() {
   return (
     <div>
+      <h1 className='mx-4'>ADMIN PAGE</h1>
       <Tab.Container id='left-tabs-example' defaultActiveKey='first'>
         <Row>
-          <Col md={2}>
+          <Col md={2} className='bg-light py-5'>
             <Nav.Item>
               <Nav.Link eventKey='first'>Dashboard</Nav.Link>
             </Nav.Item>

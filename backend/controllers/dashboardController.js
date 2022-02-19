@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generatrateToken.js'
 import User from '../models/userModel.js'
 import Product from '../models/productModel.js'
+import Order from '../models/orderModel.js'
 
 // @desc to get user count
 // @route GET/api/dashboard/user
@@ -28,4 +29,33 @@ const productCount = asyncHandler(async (req, res) => {
 // @route GET/api/dashboard/order
 // @access public
 
-export { userCount, productCount }
+const orderCount = asyncHandler(async (req, res) => {
+  const order = await Order.find({})
+  const orderCount = order.length
+  res.json(orderCount)
+})
+
+// @desc to get total profit
+// @route GET/api/dashboard/profit
+// @access public
+
+const productProfit = asyncHandler(async (req, res) => {
+  const profit = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        price: {
+          $sum: '$totalPrice',
+        },
+      },
+    },
+  ])
+  console.log('profit', profit)
+  res.json(profit[0].price)
+})
+
+// _id: { day: { $dayOfYear: "$date"}, year: { $year: "$date" } },
+// totalAmount: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+// count: { $sum: 1 }
+
+export { userCount, productCount, orderCount, productProfit }

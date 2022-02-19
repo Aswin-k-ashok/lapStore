@@ -27,10 +27,11 @@ function AddCategoryScreen() {
     if (!userInfo) {
       navigate('/login')
     }
-  }, [navigate, userInfo])
+  }, [navigate, userInfo, dispatch])
 
   const submitHandler = (e) => {
     e.preventDefault()
+    window.alert('do you want to add', name, 'this process is irriversible')
 
     dispatch(addCategory(name, userInfo))
   }
@@ -49,7 +50,7 @@ function AddCategoryScreen() {
                   <Form.Label>category name</Form.Label>
                   <Form.Control
                     type='text'
-                    placeholder='enter your name'
+                    placeholder='Enter A New Category'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     rounded
