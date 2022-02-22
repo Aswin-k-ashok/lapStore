@@ -27,6 +27,7 @@ function ProductScreen() {
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState('')
   const [comment, setComment] = useState('')
+  const [mainImage, setMainImage] = useState('')
 
   const navigate = useNavigate()
 
@@ -76,6 +77,10 @@ function ProductScreen() {
     )
   }
 
+  const selectImage = (url) => {
+    setMainImage(url)
+  }
+
   // const product = {}
 
   return (
@@ -104,6 +109,22 @@ function ProductScreen() {
             fadeDuration={280}
             className='p-2'
           />
+          {product.extraImages &&
+            product.extraImages.length > 0 &&
+            product.extraImages.map((image) => {
+              return (
+                <Image
+                  onClick={(e) => {
+                    e.preventDefault()
+                    selectImage(image.url)
+                  }}
+                  src={image.url}
+                  alt={image.name}
+                  fluid
+                  style={{ heigth: '90px', width: '90px', margin: '10px' }}
+                />
+              )
+            })}
         </Col>
 
         <Col md={4}>
@@ -113,7 +134,7 @@ function ProductScreen() {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <p>{product.price} ₹</p>
+              <p>MRP {product.price} </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -130,7 +151,14 @@ function ProductScreen() {
         <Col md={4}>
           <ListGroup className='py-5'>
             <ListGroup.Item>
-              <h1>₹ {product.price}</h1>
+              {product.discountPrice > 0 ? (
+                <h1>
+                  ₹{' '}
+                  {product.price - product.price * 0.01 * product.discountPrice}
+                </h1>
+              ) : (
+                <h1>₹ {product.price}</h1>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>

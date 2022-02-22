@@ -11,6 +11,7 @@ function DashBoard() {
     const [productCount, setProductCount] = useState()
     const [orderCount, setOrderCount] = useState()
     const [profit, setProfit] = useState()
+    const [block, setBlock] = useState()
 
     useEffect(() => {
 
@@ -19,11 +20,13 @@ function DashBoard() {
             const { data: countProduct } = await axios.get('/api/dashboard/product')
             const { data: countOrder } = await axios.get('/api/dashboard/order')
             const { data: productProfit } = await axios.get('/api/dashboard/profit')
+            const { data: blockedUser } = await axios.get('/api/dashboard/userblock')
 
             setUserCount(countUser)
             setProductCount(countProduct)
             setOrderCount(countOrder)
             setProfit(productProfit)
+            setBlock(blockedUser)
         }
         count()
     }, [])
@@ -85,8 +88,8 @@ function DashBoard() {
 
                     <div className="card" style={{ backgroundColor: "#096C86" }}>
                         <ul>
-                            <li>Total users</li>
-
+                            <li>Blocked users</li>
+                            <h1>{block}</h1>
                         </ul>
                     </div>
                 </Col>

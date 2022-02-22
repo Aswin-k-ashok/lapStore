@@ -18,6 +18,7 @@ import categoryRoute from './routes/categoryRoutes.js'
 import offerRoute from './routes/offerRoutes.js'
 import dashboardRoute from './routes/dashboardRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import Order from './models/orderModel.js'
 
 dotenv.config()
 
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 //CLOUDINARY CONFIG
 cloudinary.config({

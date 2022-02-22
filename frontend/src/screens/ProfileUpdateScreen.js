@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Row, Col, Form, Button, Table } from 'react-bootstrap'
+import { Row, Col, Form, Button, Table, Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
@@ -103,15 +103,15 @@ function ProfileUpdateScreen() {
     setCategorymanagement(false)
   }
   return (
-    <>
+    <Container>
       <Form
         className='form-body'
         onSubmit={submitHandler}
         style={{
           backgroundColor: '#fc7670',
           padding: '2em',
-          width: '400px',
-          borderRadius: '10px',
+          width: '50%',
+          borderRadius: '5px',
         }}
       >
         <h2>Update Profile</h2>
@@ -188,12 +188,13 @@ function ProfileUpdateScreen() {
         <Button type='submit' variant='primary' style={{ boxShadow: 'none' }}>
           Update
         </Button>
+        <Button>show addresses</Button>
 
         {error && <Message>{error}</Message>}
         {message && <Message>{message}</Message>}
         {success && <Message variant='success'>user updated</Message>}
       </Form>
-    </>
+    </Container>
   )
 }
 

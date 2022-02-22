@@ -15,6 +15,16 @@ const userCount = asyncHandler(async (req, res) => {
   res.json(userCount)
 })
 
+// @desc to get number of blocked user
+// @route GET/api/dashboard/userblock
+// @access public
+
+const userBlockCount = asyncHandler(async (req, res) => {
+  const blockUser = await User.find({ isActive: false })
+  const bolckUserCount = blockUser.length
+  res.json(bolckUserCount)
+})
+
 // @desc to get product count
 // @route GET/api/dashboard/product
 // @access public
@@ -58,4 +68,4 @@ const productProfit = asyncHandler(async (req, res) => {
 // totalAmount: { $sum: { $multiply: [ "$price", "$quantity" ] } },
 // count: { $sum: 1 }
 
-export { userCount, productCount, orderCount, productProfit }
+export { userCount, productCount, orderCount, productProfit, userBlockCount }

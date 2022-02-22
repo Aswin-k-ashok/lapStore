@@ -30,6 +30,7 @@ import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
   ORDER_CANCEL_RESET,
+  ORDER_PAY_SUCCESS,
 } from '../constants/orderConstants'
 
 function OrderScreen() {
@@ -79,6 +80,60 @@ function OrderScreen() {
     console.log(Math.round(order.totalPrice / 75))
   }
 
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement('script')
+      script.src = src
+      script.onload = () => {
+        resolve(true)
+      }
+      script.onerror = () => {
+        resolve(false)
+      }
+      document.body.appendChild(script)
+    })
+  }
+
+  async function showRazorpay() {
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+
+    if (!res) {
+      alert('Razorpay SDK failed to load. Are you online?')
+      return
+    }
+
+    const { data } = await axios.post(`/razorpay/${orderId}`)
+
+    const options = {
+      key: 'rzp_test_qYWoOCUA1DNFKi',
+      currency: data.currency,
+      amount: data.amount.toString(),
+      order_id: data.id,
+      name: 'LapStore',
+      description: 'Make the payment to complete the process',
+      image: '',
+      handler: async (response) => {
+        await axios.post(`/razorpay/success/${orderId}`)
+        dispatch({ type: ORDER_PAY_SUCCESS })
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature);
+
+        alert('Transaction successful')
+      },
+      prefill: {
+        name: 'LapStore Admin',
+        email: 'LapStoreofficial@gmail.com',
+        phone_number: '8089414817',
+      },
+    }
+    const paymentObject = new window.Razorpay(options)
+    paymentObject.open()
+    // dispatch({
+    //   type: 'ORDER_DELIVER_SUCCESS',
+    // })
+  }
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/login')
@@ -110,6 +165,7 @@ function OrderScreen() {
   }, [dispatch, successPay, successDeliver, order, navigate, sdkReady])
 
   const successPaymentHandler = (paymentResult) => {
+    alert('order placed')
     console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
   }
@@ -120,6 +176,7 @@ function OrderScreen() {
 
   const cancelHandler = () => {
     window.location.reload()
+    alert('order canceled')
     dispatch(cancelOrder(order))
   }
 
@@ -302,6 +359,23 @@ function OrderScreen() {
                 <Button onClick={cancelHandler} className='btn btn-danger'>
                   {' '}
                   cancel order
+                </Button>
+              </ListGroup.Item>
+            )}
+
+            {!order.isPaid && order.paymentMethod === 'razorpay' && (
+              <ListGroup.Item>
+                <Button
+                  style={{ backgroundColor: '#305BC3', borderRadius: '2px' }}
+                  onClick={showRazorpay}
+                >
+                  {/* <div
+                    style={{
+                      backgroundImage:
+                        'https://dashboard-activation.s3.amazonaws.com/org_100000razorpay/main_logo/phpAJgHea',
+                    }}
+                  ></div> */}
+                  Razor pay
                 </Button>
               </ListGroup.Item>
             )}

@@ -120,9 +120,15 @@ function ProfileScreen() {
                 {user.isAdmin ? (
                   <>
                     <li>
-                      <Button className='btn btn-light'>
-                        <Link to='/test'>show dashboard</Link>
-                      </Button>
+                      <Link to='/test'>
+                        <Button className='btn btn-light'> Dashboard</Button>
+                      </Link>
+                      <Link to='/profileupdate'>
+                        <Button className='btn btn-light'>
+                          {' '}
+                          Update Profile
+                        </Button>
+                      </Link>
                     </li>
                   </>
                 ) : (

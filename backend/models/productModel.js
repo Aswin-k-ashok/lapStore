@@ -31,16 +31,16 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    // extraImages: [
-    //   {
-    //     public_id: {
-    //       type: String,
-    //     },
-    //     url: {
-    //       type: String,
-    //     },
-    //   },
-    // ],
+    extraImages: [
+      {
+        public_id: {
+          type: String,
+        },
+        url: {
+          type: String,
+        },
+      },
+    ],
     brand: {
       type: String,
       required: true,
