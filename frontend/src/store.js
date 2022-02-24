@@ -22,6 +22,8 @@ import {
   userListReducer,
   userBlockReducer,
   addressListReducer,
+  referralIdReducer,
+  walletIdReducer,
 } from './reducers/userReducers'
 import {
   orderCreateReducer,
@@ -33,6 +35,7 @@ import {
   orderCancelReducer,
 } from './reducers/orderReducers'
 import { offerListReducer } from './reducers/offerReducers'
+// import { referralIdReducer } from './reducers/referralIdReducers'
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -59,6 +62,8 @@ const reducer = combineReducers({
   orderDeliver: orderDeliverReducer,
   orderCancel: orderCancelReducer,
   offerList: offerListReducer,
+  referralId: referralIdReducer,
+  wallet: walletIdReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')

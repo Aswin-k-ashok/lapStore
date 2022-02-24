@@ -69,6 +69,7 @@ const OfferCreateScreen = () => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type='text'
+                className='mx-0'
                 placeholder='Enter the title for the offer'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -79,6 +80,7 @@ const OfferCreateScreen = () => {
               <Form.Label>Discount percentage</Form.Label>
               <Form.Control
                 type='Number'
+                className='mx-0'
                 placeholder='Enter the discount percentage'
                 value={discountPercentage}
                 onChange={(e) => setDiscountPercentage(e.target.value)}
@@ -86,8 +88,8 @@ const OfferCreateScreen = () => {
             </Form.Group>
 
             <ListGroup.Item className='py-3 mb-3'>
+              <Form.Label>Offer Active status</Form.Label>
               <Row>
-                <Col>Status</Col>
                 <Col>
                   <Form.Control
                     as='select'
@@ -107,8 +109,9 @@ const OfferCreateScreen = () => {
             </ListGroup.Item>
 
             <ListGroup.Item className='py-3 mb-3'>
+              <Form.Label>Category</Form.Label>
+
               <Row>
-                <Col>Category</Col>
                 <Col>
                   <Form.Control
                     as='select'

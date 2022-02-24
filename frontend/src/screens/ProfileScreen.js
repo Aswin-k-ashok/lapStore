@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Row, Col, Form, Button, Table, Container } from 'react-bootstrap'
@@ -11,6 +12,7 @@ import ProductListScreen from './ProductListScreen'
 import AddCategoryScreen from './AddCategoryScreen'
 import { getUserDetails, updateUserProfile } from '../actions/userAction'
 import { listMyOrders } from '../actions/orderActions'
+import { showReferralCode, showWalletBalance } from '../actions/userAction'
 
 function ProfileScreen() {
   const [name, setName] = useState('')
@@ -43,12 +45,31 @@ function ProfileScreen() {
   const orderListMy = useSelector((state) => state.orderListMy)
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
 
+  const referralId = useSelector((state) => state.referralId)
+  const { id } = referralId
+
+  const wallet = useSelector((state) => state.wallet)
+  const { data } = wallet
+
+  console.log(data)
+
+  // const genrateReferalId = async () => {
+  //   // const config = {
+  //   //   headers: {
+  //   //     Authorization: `Bearer ${userInfo.token}`,
+  //   //   },
+  //   //   const {data} = await axios.post('/api/referral',config)
+  //   // }
+  // }
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/login')
     } else {
       if (!user.name) {
         dispatch(getUserDetails('profile'))
+        dispatch(showReferralCode())
+        dispatch(showWalletBalance())
         dispatch(listMyOrders())
       } else {
         setName(user.name)
@@ -109,32 +130,90 @@ function ProfileScreen() {
         <Col md={12} sm={12}>
           <div>
             <Row className='profileCard'>
-              <ul>
-                <li>
-                  <i className='fas fa-user' />
-                </li>
-                <li className='uName'> HELLO {user.name}</li>
-                <li>Name : {user.name}</li>
-                <li>Email : {user.email}</li>
-                <li>Phone : {user.phone}</li>
-                {user.isAdmin ? (
-                  <>
-                    <li>
-                      <Link to='/test'>
-                        <Button className='btn btn-light'> Dashboard</Button>
-                      </Link>
-                      <Link to='/profileupdate'>
-                        <Button className='btn btn-light'>
-                          {' '}
-                          Update Profile
-                        </Button>
-                      </Link>
-                    </li>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </ul>
+              <Col>
+                <ul>
+                  <li>
+                    <i className='fas fa-user' />
+                  </li>
+                  <li className='uName'> HELLO {user.name}</li>
+                  <li>Name : {user.name}</li>
+                  <li>Email : {user.email}</li>
+                  <li>Phone : {user.phone}</li>
+                  {user.isAdmin ? (
+                    <>
+                      <li>
+                        <Link to='/test'>
+                          <Button className='btn btn-light cardButtons'>
+                            {' '}
+                            Dashboard
+                          </Button>
+                        </Link>
+                        <Link to='/profileupdate'>
+                          <Button className='btn btn-light cardButtons'>
+                            {' '}
+                            Update Profile
+                          </Button>
+                        </Link>
+
+                        {/* <h4>Your referral code</h4>
+                        {id.map((id) => (
+                          <p
+                            key={id._id}
+                            style={{ fontSize: '2rem', color: 'green' }}
+                          >
+                            {id.referralId}
+                          </p>
+                        ))} */}
+                      </li>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </ul>
+              </Col>
+              <Col className='userPanel'>
+                <h4 style={{ color: 'white' }}>
+                  Your Referral Code{' '}
+                  <p>share this code to get 100 in your wallet</p>
+                </h4>
+
+                {id.map((id) => (
+                  <p
+                    key={id._id}
+                    style={{
+                      fontSize: '2rem',
+                      color: '#03898F',
+                      // backgroundColor: '#401144',
+                      padding: '10px',
+                    }}
+                  >
+                    {id.referralId}
+                  </p>
+                ))}
+                <h2>Wallet</h2>
+                <h5>Balance</h5>
+                <p style={{ fontSize: '2rem', color: 'green' }}>
+                  &#x20b9;{data ? data : 0}
+                </p>
+              </Col>
+              <Col
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  color: 'white',
+                }}
+              >
+                <Link to=''>
+                  <Button className='cardButtons'>Manage Addresses</Button>
+                </Link>
+                <Link to='/profileupdate'>
+                  <Button className='cardButtons'>Update Profile</Button>
+                </Link>
+                <Link to=''>
+                  <Button className='cardButtons'>View Orders</Button>
+                </Link>
+              </Col>
             </Row>
           </div>
         </Col>

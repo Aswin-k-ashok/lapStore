@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Card,
+  Button,
+  Container,
+} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
 import CheckoutSteps from '../component/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
+import { listProducts } from '../actions/productActions'
 import { USER_DETAILS_RESET } from '../constants/userConstants'
 
 function PlaceOrderScreen() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const cart = useSelector((state) => state.cart)
+
+  const productList = useSelector((state) => state.productList)
+  const { loading: productLoading, error: productError, products } = productList
+
+  console.log(products, 'does the products came')
+  console.log(cart, 'items in teh cart')
 
   if (!cart.shippingAddress.address) {
     navigate('/shipping')
@@ -40,6 +55,8 @@ function PlaceOrderScreen() {
   useEffect(() => {
     if (success) {
       navigate(`/order/${order._id}`)
+      dispatch(listProducts())
+
       dispatch({ type: USER_DETAILS_RESET })
 
       console.log('order placed')
@@ -61,7 +78,7 @@ function PlaceOrderScreen() {
   }
 
   return (
-    <>
+    <Container>
       <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>
@@ -162,7 +179,7 @@ function PlaceOrderScreen() {
           </ListGroup>
         </Col>
       </Row>
-    </>
+    </Container>
   )
 }
 

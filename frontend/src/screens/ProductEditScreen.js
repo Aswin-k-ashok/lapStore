@@ -11,6 +11,7 @@ import FormContainer from '../component/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { listCategory } from '../actions/categoryActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import CropImage from '../component/CropImage'
 
 function ProductEditScreen() {
   const { id } = useParams()
@@ -26,6 +27,9 @@ function ProductEditScreen() {
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(0)
   const [uploading, setUploading] = useState(false)
+  const [showCropper, setShowCropper] = useState(false)
+  const [cropImage, setCropImage] = useState(false)
+  const [imageOne, setImageOne] = useState(null)
 
   const dispatch = useDispatch()
 
@@ -40,7 +44,6 @@ function ProductEditScreen() {
   } = productUpdate
 
   const categoryList = useSelector((state) => state.categoryList)
-  console.log(categoryList)
   const {
     loading: categoryLoading,
     error: categoryError,
@@ -67,10 +70,27 @@ function ProductEditScreen() {
     }
   }, [dispatch, productId, product, successUpdate])
 
-  const uploadFileHandler = async (e) => {
-    const file = e.target.files[0]
+  const submitHandler = (e) => {
+    e.preventDefault()
+    const Test = new FormData()
+    Test.set('name', name)
+    Test.set('price', price)
+    Test.set('countInStock', countInStock)
+    Test.set('image', image)
+    Test.set('brand', brand)
+    Test.set('category', category)
+    Test.set('description', description)
+    images.forEach((image) => {
+      Test.append('images', image)
+    })
+    dispatch(updateProduct(Test, productId))
+  }
+
+  const uploadFileHandler = async (image) => {
+    // const file = e.target.files[0]
     const formData = new FormData()
-    formData.append('image', file)
+    // formData.append('image', file)
+    formData.append('image', image, image.originalname)
     setUploading(true)
 
     try {
@@ -104,39 +124,6 @@ function ProductEditScreen() {
       reader.readAsDataURL(file)
     })
   }
-
-  const submitHandler = (e) => {
-    e.preventDefault()
-    const Test = new FormData()
-    Test.set('name', name)
-    Test.set('price', price)
-    Test.set('countInStock', countInStock)
-    Test.set('image', image)
-    Test.set('brand', brand)
-    Test.set('category', category)
-    Test.set('description', description)
-    images.forEach((image) => {
-      Test.append('images', image)
-    })
-    dispatch(updateProduct(Test, productId))
-  }
-
-  // const submitHandler = (e) => {
-  //   e.preventDefault()
-  //   dispatch(
-  //     updateProduct({
-  //       _id: productId,
-  //       name,
-  //       price,
-  //       image,
-  //       brand,
-  //       category,
-  //       description,
-  //       countInStock,
-  //     })
-  //   )
-  // }
-
   return (
     <>
       <FormContainer>
@@ -187,8 +174,13 @@ function ProductEditScreen() {
                 id='image-file'
                 Label='choose a file'
                 type='file'
-                onChange={uploadFileHandler}
-              ></Form.Control>
+                name='imageOne'
+                onChange={(e) => {
+                  setCropImage(e.target.files[0])
+                  setShowCropper(true)
+                }}
+                accept='.jpg,.jpeg,.png,'
+              />
               {uploading && <Loader />}
             </Form.Group>
 
@@ -259,6 +251,20 @@ function ProductEditScreen() {
               update
             </Button>
           </Form>
+        )}
+
+        {showCropper && (
+          <CropImage
+            src={cropImage}
+            imageCallback={(image) => {
+              setImageOne(image)
+              setShowCropper(false)
+              uploadFileHandler(image)
+            }}
+            closeHander={() => {
+              setShowCropper(false)
+            }}
+          />
         )}
       </FormContainer>
     </>

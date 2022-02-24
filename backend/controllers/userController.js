@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generatrateToken.js'
 import User from '../models/userModel.js'
+import ReferralId from '../models/referralIdModel.js'
+import Wallet from '../models/walletModel.js'
 
 // @desc  Auth user - login
 // @route POST/api/users/login
@@ -158,6 +160,118 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc    Check if the given referral Id is valid
+// @route   PUT /api/users/referral
+// @access  Private
+const checkReferralId = asyncHandler(async (req, res) => {
+  const referralId = req.body.referralId
+  const userId = req.user._id
+  let parentUser
+  let checked = false
+
+  const referral = await ReferralId.find({})
+  referral.forEach(async (item) => {
+    if (item.referralId === referralId) {
+      checked = true
+      parentUser = item.user
+      const wallet = new Wallet({
+        user: userId,
+        balance: 100,
+      })
+      await wallet.save()
+      const test = await Wallet.findOneAndUpdate(
+        {
+          user: parentUser,
+        },
+        {
+          $inc: { balance: 100 },
+        },
+        {
+          new: true,
+          upsert: true,
+        }
+      )
+      res.json('success')
+    }
+  })
+
+  if (!checked) {
+    res.json('fail')
+  }
+})
+
+// @desc    Add referral id
+// @route   POST /api/users/referral
+// @access  Private
+const addReferralId = asyncHandler(async (req, res) => {
+  const userId = req.user._id
+  const userToString = userId.toString()
+  const referralA = req.user.name.slice(0, 4)
+  const referralB = userToString.slice(15, 20)
+  const referralC = userToString.slice(1, 4)
+  const referral = referralC + referralA + referralB
+
+  const referralId = new ReferralId({
+    user: userId,
+    referralId: referral,
+  })
+
+  await referralId.save()
+
+  res.json(referralId)
+})
+
+// @desc    Get referral id
+// @route   GET /api/users/referral
+// @access  Private
+const getReferralId = asyncHandler(async (req, res) => {
+  const userId = req.user._id
+
+  const data = await ReferralId.find({
+    user: userId,
+  })
+  res.json(data)
+})
+
+// @desc    Get wallet balance
+// @route   GET /api/users/wallet
+// @access  Private
+const showWalletBalance = asyncHandler(async (req, res) => {
+  const userId = req.user._id
+
+  const data = await Wallet.find({
+    user: userId,
+  })
+  if (data.length > 0) {
+    const response = data[0].balance
+    res.json(response)
+  } else {
+    res.json(0)
+  }
+})
+
+// @desc    Delete wallet balance
+// @route   PUT /api/users/wallet
+// @access  Private
+const deductWalletBalance = asyncHandler(async (req, res) => {
+  const userId = req.user._id
+  const amount = req.params.amount
+
+  const test = await Wallet.findOneAndUpdate(
+    {
+      user: userId,
+    },
+    {
+      $inc: { balance: -amount },
+    },
+    {
+      new: true,
+    }
+  )
+
+  res.json('success')
+})
+
 export {
   authUser,
   getUserProfile,
@@ -166,4 +280,9 @@ export {
   getUsers,
   getUserById,
   updateUser,
+  checkReferralId,
+  addReferralId,
+  getReferralId,
+  showWalletBalance,
+  deductWalletBalance,
 }

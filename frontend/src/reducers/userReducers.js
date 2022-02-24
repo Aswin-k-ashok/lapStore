@@ -23,6 +23,9 @@ import {
   USER_BLOCK_RESET,
   USER_ADD_ADDRESS,
   USER_LIST_ADDRESS,
+  SHOW_REFERRAL_CODE,
+  SHOW_WALLET_BALANCE,
+  DEDUCT_FROM_WALLET,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -82,7 +85,6 @@ export const userUpdateProfileReducer = (state = {}, action) => {
 }
 
 export const userListReducer = (state = { users: [] }, action) => {
-  console.log('reducer', action.payload)
   switch (action.type) {
     case USER_LIST_REQUEST:
       return { ...state, loading: true }
@@ -118,6 +120,26 @@ export const addressListReducer = (state = { addresses: [] }, action) => {
       return { ...state, addresses: action.payload }
     case USER_ADD_ADDRESS:
       return { ...state, addedAddresses: true }
+    default:
+      return state
+  }
+}
+
+export const referralIdReducer = (state = { id: [] }, action) => {
+  switch (action.type) {
+    case SHOW_REFERRAL_CODE:
+      return { id: action.payload }
+    default:
+      return state
+  }
+}
+
+export const walletIdReducer = (state = { data: [] }, action) => {
+  switch (action.type) {
+    case SHOW_WALLET_BALANCE:
+      return { data: action.payload }
+    case DEDUCT_FROM_WALLET:
+      return state
     default:
       return state
   }

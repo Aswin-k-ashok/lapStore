@@ -31,4 +31,10 @@ export const USER_BLOCK_RESET = 'USER_BLOCK_RESET'
 export const USER_ADD_ADDRESS = 'USER_ADD_ADDRESS'
 export const USER_LIST_ADDRESS = 'USER_LIST_ADDRESS'
 
+export const ADD_REFERRAL_CODE = 'ADD_REFERRAL_CODE'
+export const SHOW_REFERRAL_CODE = 'SHOW_REFERRAL_CODE'
+export const SHOW_WALLET_BALANCE = 'SHOW_WALLET_BALANCE'
+
+export const DEDUCT_FROM_WALLET = 'DEDUCT_FROM_WALLET'
+
 // made the costants now go and make the reducer

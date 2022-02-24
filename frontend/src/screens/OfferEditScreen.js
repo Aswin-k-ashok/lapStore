@@ -95,6 +95,7 @@ const OfferEditScreen = () => {
               <Form.Control
                 type='text'
                 placeholder='Enter the title for the offer'
+                className='mx-0'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               ></Form.Control>
@@ -105,6 +106,7 @@ const OfferEditScreen = () => {
               <Form.Control
                 type='Number'
                 placeholder='Enter the discount percentage'
+                className='mx-0'
                 value={discountPercentage}
                 onChange={(e) => setDiscountPercentage(e.target.value)}
               ></Form.Control>

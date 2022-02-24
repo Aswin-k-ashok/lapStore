@@ -16,6 +16,8 @@ import uploadRoute from './routes/uploadRoutes.js'
 import addressRoute from './routes/addressRoutes.js'
 import categoryRoute from './routes/categoryRoutes.js'
 import offerRoute from './routes/offerRoutes.js'
+import cartRoutes from './routes/cartRoutes.js'
+
 import dashboardRoute from './routes/dashboardRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import Order from './models/orderModel.js'
@@ -96,8 +98,11 @@ app.use('/api/orders', orderRoute)
 app.use('/api/upload', uploadRoute)
 app.use('/api/address', addressRoute)
 app.use('/api/categories', categoryRoute)
+app.use('/api/cart', cartRoutes)
+
 app.use('/api/offer', offerRoute)
 app.use('/api/dashboard', dashboardRoute)
+// app.use('/api/referral', referralIdRoute)
 
 app.use('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)

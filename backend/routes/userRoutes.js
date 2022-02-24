@@ -11,6 +11,11 @@ import {
   registerUser,
   updateUserProfile,
   updateUser,
+  checkReferralId,
+  addReferralId,
+  getReferralId,
+  showWalletBalance,
+  deductWalletBalance,
 } from '../controllers/userController.js'
 
 router.route('/').post(registerUser).get(protect, admin, getUsers)
@@ -19,7 +24,15 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile)
-router.route('/:id').get(protect, admin, getUserById).put(updateUser)
 
+router
+  .route('/referral')
+  .get(protect, getReferralId)
+  .post(protect, addReferralId)
+  .put(protect, checkReferralId)
+router.put('/wallet/:amount', deductWalletBalance)
+router.route('/wallet').get(protect, showWalletBalance)
+
+router.route('/:id').get(protect, admin, getUserById).put(updateUser)
 // router.route('/userCount').get(getUserCount)
 export default router

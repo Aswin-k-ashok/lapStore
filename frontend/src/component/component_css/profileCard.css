@@ -1,11 +1,20 @@
 .profileCard {
-  background-color: #fc7670;
+  /* background-color: #fc7670; */
+  background-image: radial-gradient(
+    circle farthest-corner at 14.2% 24%,
+    rgba(239, 61, 78, 1) 0%,
+    rgba(239, 61, 78, 0.81) 51.8%,
+    rgba(239, 61, 78, 0.63) 84.6%
+  );
   color: white;
   font-size: 1em;
   margin: 0;
   padding: 10px;
   line-height: 4em;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .profileCard ul {
@@ -30,4 +39,8 @@
 
 .profileCard .uName {
   font-size: 2em;
+}
+
+.profileCard .cardButtons {
+  min-width: 14.5em;
 }
