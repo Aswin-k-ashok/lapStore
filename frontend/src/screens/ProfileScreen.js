@@ -51,8 +51,6 @@ function ProfileScreen() {
   const wallet = useSelector((state) => state.wallet)
   const { data } = wallet
 
-  console.log(data)
-
   // const genrateReferalId = async () => {
   //   // const config = {
   //   //   headers: {
@@ -84,6 +82,8 @@ function ProfileScreen() {
     navigate,
     dispatch,
     userLogin,
+    userInfo,
+    success,
     profileCard,
     userUpdateProfile,
   ])
@@ -204,13 +204,13 @@ function ProfileScreen() {
                   color: 'white',
                 }}
               >
-                <Link to=''>
+                <Link to='/address'>
                   <Button className='cardButtons'>Manage Addresses</Button>
                 </Link>
                 <Link to='/profileupdate'>
                   <Button className='cardButtons'>Update Profile</Button>
                 </Link>
-                <Link to=''>
+                <Link to='/myorder'>
                   <Button className='cardButtons'>View Orders</Button>
                 </Link>
               </Col>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import './component_css/Footer.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 function Footer() {
   return (
@@ -10,36 +11,30 @@ function Footer() {
           <div className='col-sm-12 col-md-6'>
             <h6>About</h6>
             <p className='text-justify'>
-              Here in <span>LapStore</span> we deliver topnotch products at lowest prices with amzing offers and also provides first class after sales services.
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis sed repellat praesentium ratione magnam quo molestiae facere neque sequi deserunt!
+              My name is <span className='text-info'>Aswin K Ashok</span> and
+              this is
+              <span className='text-danger'> LapStore </span> an eccommece
+              website I made to learn the fundamentals of MERN stack develpment.
+              I made this site only for self learning and development porposes.
+              It took 6 weeks for the development and hosting of this
+              application . If you are reading this dont hesitate to contact me
+              on linkedin, instagram , any other social platform .
             </p>
           </div>
           <div className='col-xs-6 col-md-3'>
-            <h6>Categories</h6>
+            <h6>Technology used</h6>
             <ul className='footer-links'>
               <li>
-                <a href='http://scanfcode.com/category/c-language/'>C</a>
+                <a href='https://www.mongodb.com/'>mongo db</a>
               </li>
               <li>
-                <a href='http://scanfcode.com/category/front-end-development/'>
-                  UI Design
-                </a>
+                <a href='https://expressjs.com/'>express js</a>
               </li>
               <li>
-                <a href='http://scanfcode.com/category/back-end-development/'>
-                  PHP
-                </a>
+                <a href='https://reactjs.org/'>react js</a>
               </li>
               <li>
-                <a href='http://scanfcode.com/category/java-programming-language/'>
-                  Java
-                </a>
-              </li>
-              <li>
-                <a href='http://scanfcode.com/category/android/'>Android</a>
-              </li>
-              <li>
-                <a href='http://scanfcode.com/category/templates/'>Templates</a>
+                <a href='https://nodejs.org/en/about/'>node js</a>
               </li>
             </ul>
           </div>
@@ -47,12 +42,12 @@ function Footer() {
             <h6>Quick Links</h6>
             <ul className='footer-links'>
               <li>
-                <a href='http://scanfcode.com/about/'>About Us</a>
+                <a href='http://aswinkashok.pythonanywhere.com/'>About Me</a>
               </li>
               <li>
-                <a href='http://scanfcode.com/contact/'>Contact Us</a>
+                <a href='https://brototype.in/'>About Us</a>
               </li>
-              <li>
+              {/* <li>
                 <a href='http://scanfcode.com/contribute-at-scanfcode/'>
                   Contribute
                 </a>
@@ -64,7 +59,7 @@ function Footer() {
               </li>
               <li>
                 <a href='http://scanfcode.com/sitemap/'>Sitemap</a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
@@ -74,30 +69,43 @@ function Footer() {
         <div className='row'>
           <div className='col-md-8 col-sm-6 col-xs-12'>
             <p className='copyright-text'>
-              Copyright © 2017 All Rights Reserved by
-              <a href='#'>Scanfcode</a>.
+              Copyright © Aswin K Ashok
+              <a href='https://aswin-k-ashok.github.io/meTemplate/'>
+                {' '}
+                Web-site
+              </a>
+              .
             </p>
           </div>
           <div className='col-md-4 col-sm-6 col-xs-12'>
             <ul className='social-icons'>
               <li>
-                <a className='facebook' href='#'>
-                  <i className='fa fa-facebook' />
+                <a
+                  className='linkedin'
+                  href='https://www.linkedin.com/in/aswin-k-ashok-99034b1b7/'
+                >
+                  <i className='bi bi-linkedin' />
                 </a>
               </li>
               <li>
-                <a className='twitter' href='#'>
-                  <i className='fa fa-twitter' />
+                <a
+                  className='facebook'
+                  href='https://www.facebook.com/aswinblock'
+                >
+                  <i className='bi bi-facebook'></i>{' '}
                 </a>
               </li>
               <li>
-                <a className='dribbble' href='#'>
-                  <i className='fa fa-dribbble' />
+                <a
+                  className='instagram'
+                  href='https://www.instagram.com/loner.____/'
+                >
+                  <i className='bi bi-instagram' />
                 </a>
               </li>
               <li>
-                <a className='linkedin' href='#'>
-                  <i className='fa fa-linkedin' />
+                <a className='gitHub' href='https://github.com/Aswin-k-ashok'>
+                  <i className='bi bi-github' />
                 </a>
               </li>
             </ul>

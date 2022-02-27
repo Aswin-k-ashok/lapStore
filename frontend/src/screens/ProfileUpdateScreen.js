@@ -110,7 +110,7 @@ function ProfileUpdateScreen() {
         style={{
           backgroundColor: '#fc7670',
           padding: '2em',
-          width: '50%',
+          width: '80%',
           borderRadius: '5px',
         }}
       >
@@ -188,7 +188,13 @@ function ProfileUpdateScreen() {
         <Button type='submit' variant='primary' style={{ boxShadow: 'none' }}>
           Update
         </Button>
-        <Button>show addresses</Button>
+        <Button
+          onClick={() => {
+            navigate('/address')
+          }}
+        >
+          show addresses
+        </Button>
 
         {error && <Message>{error}</Message>}
         {message && <Message>{message}</Message>}

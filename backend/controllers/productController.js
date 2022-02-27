@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
+import Category from '../models/categoryModel.js'
 import cloudinary from 'cloudinary'
 
 //@desc  fetch all products form db
@@ -155,6 +156,37 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc get product report
+// @route get/api/report/product
+// @access private admin
+
+const getProductsReport = asyncHandler(async (req, res) => {
+  const product = await Product.find({})
+  const productNum = product.length
+  const categories = await Category.find({})
+  const categoriesNum = categories.length
+
+  const categoryData = await Product.aggregate([
+    {
+      $group: {
+        _id: '$category',
+        qty: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        category: '$_id',
+        qty: 1,
+      },
+    },
+  ])
+  res.json({
+    productCount: productNum,
+    categoriesCount: categoriesNum,
+    categoryReport: categoryData,
+  })
+})
+
 export {
   getProductById,
   getProducts,
@@ -162,4 +194,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
+  getProductsReport,
 }

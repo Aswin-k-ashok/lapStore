@@ -27,8 +27,11 @@ import OfferCreateScreen from './screens/OfferCreateScreen'
 import OfferEditScreen from './screens/OfferEditScreen'
 import OfferlistScreen from './screens/OfferlistScreen'
 
+import AddressScreen from './screens/AddressScreen'
 import ProfileUpdateScreen from './screens/ProfileUpdateScreen'
 import OrderMyScreen from './screens/OrderMyScreen'
+import SalesReport from './screens/SalesReport'
+
 import Dashboard from './screens/Dashboard'
 
 function App() {
@@ -46,6 +49,7 @@ function App() {
           <Route path='/cart/:id' element={<CartScreen />} />
           <Route path='/shipping' element={<ShippingScreen />} />
           <Route path='/payment' element={<PaymentScreen />} />
+          <Route path='/myorder' element={<OrderMyScreen />} />
           <Route path='/placeorder' element={<PlaceOrderScreen />} />
           <Route path='/order/:id' element={<OrderScreen />} />
           <Route path='/' element={<HomeScreen />} exact />
@@ -68,6 +72,8 @@ function App() {
           <Route path='/admin/addcategory' element={<AddCategoryScreen />} />
           <Route path='/admin/listcategory' element={<CategoryListScreen />} />
           <Route path='/test' element={<Dashboard />} />
+          <Route path='/address' element={<AddressScreen />} />
+          <Route path='/admin/salesreport' element={<SalesReport />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Container>

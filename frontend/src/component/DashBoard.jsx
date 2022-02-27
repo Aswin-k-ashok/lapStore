@@ -3,6 +3,22 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import '../component/component_css/DashBoard.css'
+import {
+    BarChart,
+    ResponsiveContainer,
+    XAxis,
+    YAxis,
+    Bar,
+    Legend,
+    Tooltip,
+    CartesianGrid,
+    Line,
+    LineChart,
+    PieChart,
+    Pie,
+    Sector,
+    Cell,
+} from 'recharts'
 
 
 
@@ -12,6 +28,15 @@ function DashBoard() {
     const [orderCount, setOrderCount] = useState()
     const [profit, setProfit] = useState()
     const [block, setBlock] = useState()
+    const [data, setData] = useState({ categoryReport: null })
+    const [orderData, setOrderData] = useState([])
+    const [userData, setUserData] = useState([])
+
+    const addDecimals = (num) => {
+        return (Math.round(num * 100) / 100).toFixed(2)
+    }
+
+
 
     useEffect(() => {
 
@@ -21,15 +46,27 @@ function DashBoard() {
             const { data: countOrder } = await axios.get('/api/dashboard/order')
             const { data: productProfit } = await axios.get('/api/dashboard/profit')
             const { data: blockedUser } = await axios.get('/api/dashboard/userblock')
+            const { data: orderData } = await axios.get('/api/orders/report')
 
             setUserCount(countUser)
             setProductCount(countProduct)
             setOrderCount(countOrder)
             setProfit(productProfit)
             setBlock(blockedUser)
+            setOrderData(orderData)
         }
         count()
     }, [])
+
+    console.log(orderData)
+    const orderSample = [
+        {
+            name: 'year',
+            total: orderData && orderData.totalPrice,
+            paid: orderData && orderData.paidprice,
+            unpaid: orderData && orderData.unpaid,
+        }
+    ]
 
 
     return (
@@ -104,6 +141,28 @@ function DashBoard() {
                     </div>
                 </Col>
 
+            </Row>
+
+            <Row>
+                <Col>
+                    <Container>
+                        <h3 className="text-center pt-4">Monthly Sales</h3>
+                        <ResponsiveContainer width="75%" height={400} className="m-auto">
+                            <BarChart data={orderSample}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Bar dataKey="total" fill="#8884d8" />
+                                <Bar dataKey="unpaid" fill="#82ca9d" />
+                                <Bar dataKey="paid" fill="#e63d00" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </Container>
+                </Col>
+                <Col>
+                </Col>
             </Row>
 
 

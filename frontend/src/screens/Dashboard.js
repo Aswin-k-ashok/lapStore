@@ -20,12 +20,17 @@ import CategoryListScreen from './CategoryListScreen'
 import OfferlistScreen from './OfferlistScreen'
 import AddCategoryScreen from './AddCategoryScreen'
 import DashBoard from '../component/DashBoard'
+import SalesReport from './SalesReport'
 
 function Dashboard() {
   return (
     <div>
       <h1 className='mx-4'>ADMIN PAGE</h1>
-      <Tab.Container id='left-tabs-example' defaultActiveKey='first'>
+      <Tab.Container
+        id='left-tabs-example'
+        className='m-3'
+        defaultActiveKey='first'
+      >
         <Row>
           <Col md={2} className='bg-light py-5'>
             <Nav.Item>
@@ -45,6 +50,9 @@ function Dashboard() {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey='sixth'>Offer Management</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey='seventh'>Product salesreport</Nav.Link>
             </Nav.Item>
           </Col>
 
@@ -80,6 +88,11 @@ function Dashboard() {
             <Tab.Content>
               <Tab.Pane eventKey='sixth'>
                 <OfferlistScreen />
+              </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+              <Tab.Pane eventKey='seventh'>
+                <SalesReport />
               </Tab.Pane>
             </Tab.Content>
           </Col>
