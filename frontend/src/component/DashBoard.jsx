@@ -155,8 +155,8 @@ function DashBoard() {
                                 <Tooltip />
                                 <Legend />
                                 <Bar dataKey="total" fill="#8884d8" />
-                                <Bar dataKey="unpaid" fill="#82ca9d" />
-                                <Bar dataKey="paid" fill="#e63d00" />
+                                <Bar dataKey="paid" fill="#82ca9d" />
+                                <Bar dataKey="unpaid" fill="#e63d00" />
                             </BarChart>
                         </ResponsiveContainer>
                     </Container>

@@ -175,10 +175,10 @@ function ProductEditScreen() {
                 Label='choose a file'
                 type='file'
                 name='imageOne'
-                onChange={(e) => {
-                  setCropImage(e.target.files[0])
-                  setShowCropper(true)
-                }}
+                // onChange={(e) => {
+                //   setCropImage(e.target.files[0])
+                //   setShowCropper(true)
+                // }}
                 accept='.jpg,.jpeg,.png,'
               />
               {uploading && <Loader />}
@@ -253,7 +253,7 @@ function ProductEditScreen() {
           </Form>
         )}
 
-        {showCropper && (
+        {/* {showCropper && (
           <CropImage
             src={cropImage}
             imageCallback={(image) => {
@@ -265,7 +265,7 @@ function ProductEditScreen() {
               setShowCropper(false)
             }}
           />
-        )}
+        )} */}
       </FormContainer>
     </>
   )

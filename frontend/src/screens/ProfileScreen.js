@@ -6,10 +6,6 @@ import { Row, Col, Form, Button, Table, Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
-import ProfileCard from '../component/ProfileCard'
-import UserListScreen from '../screens/UserListScreen'
-import ProductListScreen from './ProductListScreen'
-import AddCategoryScreen from './AddCategoryScreen'
 import { getUserDetails, updateUserProfile } from '../actions/userAction'
 import { listMyOrders } from '../actions/orderActions'
 import { showReferralCode, showWalletBalance } from '../actions/userAction'
@@ -51,14 +47,14 @@ function ProfileScreen() {
   const wallet = useSelector((state) => state.wallet)
   const { data } = wallet
 
-  // const genrateReferalId = async () => {
-  //   // const config = {
-  //   //   headers: {
-  //   //     Authorization: `Bearer ${userInfo.token}`,
-  //   //   },
-  //   //   const {data} = await axios.post('/api/referral',config)
-  //   // }
-  // }
+  const genrateReferalId = async () => {
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${userInfo.token}`,
+    //   },
+    //   const {data} = await axios.post('/api/referral',config)
+    // }
+  }
 
   useEffect(() => {
     if (!userInfo) {

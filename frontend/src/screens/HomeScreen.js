@@ -1,5 +1,5 @@
 import { React, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Container } from 'react-bootstrap'
 import Product from '../component/Product'
@@ -7,21 +7,20 @@ import { listProducts } from '../actions/productActions'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
 import Banner from '../component/Banner'
+import Meta from '../component/Meta'
 // import products from '../products
 
 function HomeScreen() {
+  const params = useParams()
+  const keyword = params.keyword
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const productList = useSelector((state) => state.productList)
   const { loading, error, products } = productList
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
-
   useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
+    dispatch(listProducts(keyword))
+  }, [dispatch, keyword])
 
   return (
     <Container>

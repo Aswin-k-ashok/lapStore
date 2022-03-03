@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css'
@@ -28,6 +28,7 @@ function ProductScreen() {
   const [rating, setRating] = useState('')
   const [comment, setComment] = useState('')
   const [mainImage, setMainImage] = useState('')
+  const refresh = useRef(0)
 
   const navigate = useNavigate()
 
@@ -55,10 +56,12 @@ function ProductScreen() {
         setRating(0)
         setComment('')
         dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
+        refresh.current = refresh.current + 1
+        console.log(refresh.current)
       }
       dispatch(listProductDetails(id))
     },
-    [dispatch, id],
+    [dispatch, id, refresh],
     successProductReview
   )
 
@@ -69,6 +72,7 @@ function ProductScreen() {
 
   const submitHandler = (e) => {
     e.preventDefault()
+    window.location.reload(false)
     dispatch(
       createProductReview(id, {
         rating,
@@ -152,10 +156,21 @@ function ProductScreen() {
           <ListGroup className='py-5'>
             <ListGroup.Item>
               {product.discountPrice > 0 ? (
-                <h1>
-                  ₹{' '}
-                  {product.price - product.price * 0.01 * product.discountPrice}
-                </h1>
+                <Row>
+                  <Col>
+                    <h2 style={{ color: 'crimson' }}>
+                      ₹
+                      {product.price -
+                        product.price * 0.01 * product.discountPrice}
+                    </h2>
+                    <strike>₹ {product.price}</strike>
+                  </Col>
+                  <Col>
+                    <marquee style={{ fontWeight: '900', color: 'crimson' }}>
+                      on special discountPrice
+                    </marquee>
+                  </Col>
+                </Row>
               ) : (
                 <h1>₹ {product.price}</h1>
               )}
@@ -188,9 +203,9 @@ function ProductScreen() {
 
             <ListGroup.Item>
               <Row>
-                <Col className='button-group'>
+                {/* <Col className='button-group'>
                   <Button className='custom-btn btn-5'>Buy now</Button>
-                </Col>
+                </Col> */}
 
                 <Col className='button-group'>
                   <Button

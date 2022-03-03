@@ -52,8 +52,8 @@ function App() {
           <Route path='/myorder' element={<OrderMyScreen />} />
           <Route path='/placeorder' element={<PlaceOrderScreen />} />
           <Route path='/order/:id' element={<OrderScreen />} />
-          <Route path='/' element={<HomeScreen />} exact />
           <Route path='/search/:keyword' element={<HomeScreen />} />
+          <Route path='/' element={<HomeScreen />} exact />
           <Route path='/admin/userlist' element={<UserListScreen />} />
           <Route path='/admin/productlist' element={<ProductListScreen />} />
           <Route

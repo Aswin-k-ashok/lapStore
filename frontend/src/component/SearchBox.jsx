@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 
 function SearchBox() {
-    const [keyword, setKeyword] = useState('')
     const navigate = useNavigate()
+    const [keyword, setKeyword] = useState('')
     const submitHandler = (e) => {
         e.preventDefault()
         if (keyword.trim()) {

@@ -43,4 +43,5 @@
 
 .profileCard .cardButtons {
   min-width: 14.5em;
+  box-shadow: none;
 }

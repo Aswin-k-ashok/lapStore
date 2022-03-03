@@ -26,6 +26,7 @@ import {
   deliverOrder,
   cancelOrder,
 } from '../actions/orderActions'
+import { listProductDetails } from '../actions/productActions'
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
@@ -63,6 +64,11 @@ function OrderScreen() {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const productDetails = useSelector((state) => state.productDetails)
+  const { product } = productDetails
+
+  // console.log(productList, 'products')
+
   if (!loading) {
     //calculate prices
 
@@ -77,7 +83,7 @@ function OrderScreen() {
       )
     )
 
-    console.log(Math.round(order.totalPrice / 75))
+    // console.log(Math.round(order.totalPrice / 75))
   }
 
   function loadScript(src) {
@@ -189,6 +195,8 @@ function OrderScreen() {
     successDeliver
   )
 
+  console.log('product', product)
+
   return loading ? (
     <Loader />
   ) : error ? (
@@ -249,14 +257,14 @@ function OrderScreen() {
                   {order.orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row>
-                        <Col md={1}>
+                        {/* <Col md={1}>
                           <Image
                             src={item.Image}
                             alt={item.name}
                             fluid
                             rounded
                           />
-                        </Col>
+                        </Col> */}
 
                         <Col>
                           <Link to={`/product/${item.product}`}>

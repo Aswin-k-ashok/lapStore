@@ -38,9 +38,24 @@ function PlaceOrderScreen() {
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2)
   }
+  console.log(products, 'products in the cart')
+
   cart.itemsPrice = addDecimals(
-    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    cart.cartItems.reduce(
+      (acc, item) =>
+        acc +
+        (item.discountPrice
+          ? item.price - item.discountPrice * 0.01 * item.price
+          : item.price) *
+          item.qty,
+      0
+    )
   )
+
+  console.log(cart.itemsPrice, 'items price')
+  // cart.itemsPrice = addDecimals(
+  //   cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  // )
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100)
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
   cart.totalPrice = (
