@@ -52,8 +52,6 @@ function App() {
           <Route path='/myorder' element={<OrderMyScreen />} />
           <Route path='/placeorder' element={<PlaceOrderScreen />} />
           <Route path='/order/:id' element={<OrderScreen />} />
-          <Route path='/search/:keyword' element={<HomeScreen />} />
-          <Route path='/' element={<HomeScreen />} exact />
           <Route path='/admin/userlist' element={<UserListScreen />} />
           <Route path='/admin/productlist' element={<ProductListScreen />} />
           <Route
@@ -74,6 +72,9 @@ function App() {
           <Route path='/test' element={<Dashboard />} />
           <Route path='/address' element={<AddressScreen />} />
           <Route path='/admin/salesreport' element={<SalesReport />} />
+          <Route path='/search/:keyword' element={<HomeScreen />} />
+          <Route path='/page/:pageNumber' element={<HomeScreen />} />
+          <Route path='/' element={<HomeScreen />} exact />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Container>

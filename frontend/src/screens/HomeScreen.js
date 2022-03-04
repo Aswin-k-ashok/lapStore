@@ -7,20 +7,22 @@ import { listProducts } from '../actions/productActions'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
 import Banner from '../component/Banner'
+import Paginate from '../component/Paginate'
 import Meta from '../component/Meta'
 // import products from '../products
 
 function HomeScreen() {
   const params = useParams()
   const keyword = params.keyword
+  const pageNumber = params.pageNumber || 1
   const dispatch = useDispatch()
 
   const productList = useSelector((state) => state.productList)
-  const { loading, error, products } = productList
+  const { loading, error, products, page, pages } = productList
 
   useEffect(() => {
-    dispatch(listProducts(keyword))
-  }, [dispatch, keyword])
+    dispatch(listProducts(keyword, dispatch))
+  }, [dispatch, keyword, pageNumber])
 
   return (
     <Container>
@@ -34,13 +36,20 @@ function HomeScreen() {
       ) : error ? (
         <Message />
       ) : (
-        <Row className=''>
-          {products.map((product) => (
-            <Col sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <Row className=''>
+            {products.map((product) => (
+              <Col sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ''}
+          />
+        </>
       )}
     </Container>
   )

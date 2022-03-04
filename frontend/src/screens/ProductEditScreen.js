@@ -70,22 +70,6 @@ function ProductEditScreen() {
     }
   }, [dispatch, productId, product, successUpdate])
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    const Test = new FormData()
-    Test.set('name', name)
-    Test.set('price', price)
-    Test.set('countInStock', countInStock)
-    Test.set('image', image)
-    Test.set('brand', brand)
-    Test.set('category', category)
-    Test.set('description', description)
-    images.forEach((image) => {
-      Test.append('images', image)
-    })
-    dispatch(updateProduct(Test, productId))
-  }
-
   const uploadFileHandler = async (image) => {
     // const file = e.target.files[0]
     const formData = new FormData()
@@ -109,6 +93,21 @@ function ProductEditScreen() {
     }
   }
 
+  const submitHandler = (e) => {
+    e.preventDefault()
+    const Test = new FormData()
+    Test.set('name', name)
+    Test.set('price', price)
+    Test.set('countInStock', countInStock)
+    Test.set('image', image)
+    Test.set('brand', brand)
+    Test.set('category', category)
+    Test.set('description', description)
+    images.forEach((image) => {
+      Test.append('images', image)
+    })
+    dispatch(updateProduct(Test, productId))
+  }
   const multiFileUploadHandler = async (e) => {
     const files = Array.from(e.target.files)
     setImages([])
@@ -175,10 +174,10 @@ function ProductEditScreen() {
                 Label='choose a file'
                 type='file'
                 name='imageOne'
-                // onChange={(e) => {
-                //   setCropImage(e.target.files[0])
-                //   setShowCropper(true)
-                // }}
+                onChange={(e) => {
+                  setCropImage(e.target.files[0])
+                  setShowCropper(true)
+                }}
                 accept='.jpg,.jpeg,.png,'
               />
               {uploading && <Loader />}
@@ -253,7 +252,7 @@ function ProductEditScreen() {
           </Form>
         )}
 
-        {/* {showCropper && (
+        {showCropper && (
           <CropImage
             src={cropImage}
             imageCallback={(image) => {
@@ -265,7 +264,7 @@ function ProductEditScreen() {
               setShowCropper(false)
             }}
           />
-        )} */}
+        )}
       </FormContainer>
     </>
   )
