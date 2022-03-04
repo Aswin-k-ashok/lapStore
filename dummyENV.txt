@@ -1,0 +1,24 @@
+#NODE_ENV = production
+NODE_ENV = development
+PORT = {application runnig port }	 
+
+MONGO_URI = {mongodb local host / atlas url } 
+
+JWT_SECRET = 
+
+PAYPAL_CLIENT_ID = 
+
+RAZORPAY_KEY_ID = 
+
+RAZORPAY_KEY_SECRET = 
+
+CLOUDINARY_CLOUD_NAME = 
+
+CLOUDINARY_API_KEY = 
+
+CLOUDINARY_API_SECRET = 
+
+PUBLIC_URL=
+
+
+
