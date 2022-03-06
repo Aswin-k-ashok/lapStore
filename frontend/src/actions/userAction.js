@@ -102,11 +102,10 @@ export const register =
         },
       }
 
+      await axios.post('/api/users/referral', { referralId }, configB)
       if (referralId.length > 0) {
-        await axios.put('/api/referral', { referralId }, configB)
+        await axios.put('/api/users/referral', { referralId }, configB)
       }
-
-      await axios.post('/api/referral', { referralId }, configB)
 
       localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (error) {

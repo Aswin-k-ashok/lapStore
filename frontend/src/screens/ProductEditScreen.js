@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Image } from 'cloudinary-react'
+import React, { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { Form, Button, Row, Col, ListGroup, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../component/Message'
 import Loader from '../component/Loader'
-import ImageUpload from '../component/ImageUpload'
 import FormContainer from '../component/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
-import { listCategory } from '../actions/categoryActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import { listCategory } from '../actions/categoryActions'
+import ImageUpload from '../component/ImageUpload'
 import CropImage from '../component/CropImage'
 
 function ProductEditScreen() {
   const { id } = useParams()
-  const navigate = useNavigate()
   const productId = id
+  const navigate = useNavigate()
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
+  const [discountPrice, setDiscountPrice] = useState(0)
   const [image, setImage] = useState('')
   const [images, setImages] = useState([])
   const [description, setDescription] = useState('')
@@ -27,8 +27,9 @@ function ProductEditScreen() {
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(0)
   const [uploading, setUploading] = useState(false)
-  const [showCropper, setShowCropper] = useState(false)
-  const [cropImage, setCropImage] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  const [cropImage, setCropImage] = useState(null)
   const [imageOne, setImageOne] = useState(null)
 
   const dispatch = useDispatch()
@@ -36,19 +37,19 @@ function ProductEditScreen() {
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
 
-  const productUpdate = useSelector((state) => state.productUpdate)
-  const {
-    loading: loadingUpdate,
-    error: errorUpdate,
-    success: successUpdate,
-  } = productUpdate
-
   const categoryList = useSelector((state) => state.categoryList)
   const {
     loading: categoryLoading,
     error: categoryError,
     category: categories,
   } = categoryList
+
+  const productUpdate = useSelector((state) => state.productUpdate)
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate
 
   useEffect(() => {
     if (successUpdate) {
@@ -61,6 +62,7 @@ function ProductEditScreen() {
       } else {
         setName(product.name)
         setPrice(product.price)
+        setDiscountPrice(product.discountPrice)
         setImage(product.image)
         setDescription(product.description)
         setBrand(product.brand)
@@ -68,10 +70,10 @@ function ProductEditScreen() {
         setCountInStock(product.countInStock)
       }
     }
-  }, [dispatch, productId, product, successUpdate])
+  }, [dispatch, productId, product, successUpdate, navigate])
 
   const uploadFileHandler = async (image) => {
-    // const file = e.target.files[0]
+    //const file = e.target.files[0]
     const formData = new FormData()
     // formData.append('image', file)
     formData.append('image', image, image.originalname)
@@ -93,21 +95,6 @@ function ProductEditScreen() {
     }
   }
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    const Test = new FormData()
-    Test.set('name', name)
-    Test.set('price', price)
-    Test.set('countInStock', countInStock)
-    Test.set('image', image)
-    Test.set('brand', brand)
-    Test.set('category', category)
-    Test.set('description', description)
-    images.forEach((image) => {
-      Test.append('images', image)
-    })
-    dispatch(updateProduct(Test, productId))
-  }
   const multiFileUploadHandler = async (e) => {
     const files = Array.from(e.target.files)
     setImages([])
@@ -123,13 +110,33 @@ function ProductEditScreen() {
       reader.readAsDataURL(file)
     })
   }
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    setSubmitted(true)
+    const Test = new FormData()
+    Test.set('name', name)
+    Test.set('price', price)
+    Test.set('discountPrice', discountPrice)
+    Test.set('countInStock', countInStock)
+    console.log(imageOne.originalname)
+    Test.append('image', imageOne, imageOne.originalname)
+    Test.set('brand', brand)
+    Test.set('category', category)
+    Test.set('description', description)
+    images.forEach((image) => {
+      Test.append('images', image)
+    })
+    dispatch(updateProduct(Test, productId))
+    setSubmitted(false)
+  }
   return (
     <>
       <FormContainer>
         <Row>
           <Col>
             <Button>
-              <Link to='/admin/productlist'>go back</Link>
+              <Link to='/test'>go back</Link>
             </Button>
           </Col>
         </Row>
@@ -161,7 +168,17 @@ function ProductEditScreen() {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='image'>
+            <Form.Group className='py-1' controlId='discountPrice'>
+              <Form.Label>Discount Rate in Percentage</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter the discount rate'
+                value={discountPrice}
+                onChange={(e) => setDiscountPrice(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='image-text'>
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type='text'
@@ -169,27 +186,28 @@ function ProductEditScreen() {
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
+              {uploading && <Loader />}
+            </Form.Group>
+
+            <Form.Group controlId='image-file'>
               <Form.Control
-                id='image-file'
-                Label='choose a file'
+                label='choose a file'
                 type='file'
                 name='imageOne'
                 onChange={(e) => {
-                  setCropImage(e.target.files[0])
-                  setShowCropper(true)
+                  console.log('here')
+                  return setCropImage(e.target.files[0])
                 }}
                 accept='.jpg,.jpeg,.png,'
               />
               {uploading && <Loader />}
             </Form.Group>
 
-            <Form.Group className='py-1'>
+            <Form.Group className='py-1' controlId='image-files'>
               <Form.Label>Add extra images</Form.Label>
               <FormControl
                 type='file'
-                id='image-files'
                 label='Choose Files'
-                custom
                 multiple
                 onChange={multiFileUploadHandler}
               />
@@ -222,7 +240,7 @@ function ProductEditScreen() {
                 <Col>
                   <Form.Control
                     as='select'
-                    value='select'
+                    value={category}
                     placeholder='select'
                     onChange={(e) => setCategory(e.target.value)}
                   >
@@ -251,17 +269,16 @@ function ProductEditScreen() {
             </Button>
           </Form>
         )}
-
-        {showCropper && (
+        {cropImage && (
           <CropImage
-            src={cropImage}
+            src={cropImage ? cropImage : ''}
             imageCallback={(image) => {
               setImageOne(image)
-              setShowCropper(false)
               uploadFileHandler(image)
+              setCropImage(null)
             }}
             closeHander={() => {
-              setShowCropper(false)
+              setCropImage(null)
             }}
           />
         )}

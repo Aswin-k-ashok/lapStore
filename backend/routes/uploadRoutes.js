@@ -6,7 +6,6 @@ const router = express.Router()
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, 'uploads/')
-    // cb(null, 'https://api.cloudinary.com/v1_1/dnjctkdet/image/upload/')
   },
   filename(req, file, cb) {
     cb(
@@ -17,7 +16,6 @@ const storage = multer.diskStorage({
 })
 
 function checkFileType(file, cb) {
-  console.log('check file types')
   const filetypes = /jpg|jpeg|png/
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
   const mimetype = filetypes.test(file.mimetype)

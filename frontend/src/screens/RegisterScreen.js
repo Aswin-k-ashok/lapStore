@@ -14,7 +14,7 @@ function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [phone, setPhone] = useState()
   const [message, setMessage] = useState(null)
-  // const [referralId, setReferralId] = useState()
+  const [referralId, setReferralId] = useState()
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -37,7 +37,7 @@ function RegisterScreen() {
     if (password !== confirmPassword) {
       setMessage('paswords do not match')
     } else {
-      dispatch(register(name, email, password, phone))
+      dispatch(register(name, email, password, phone, referralId))
     }
   }
 
@@ -105,7 +105,7 @@ function RegisterScreen() {
                     ></Form.Control>
                   </Form.Group>
 
-                  {/* <Form.Group controlId='referralId' className='py-1'>
+                  <Form.Group controlId='referralId' className='py-1'>
                     <Form.Label>Have a referral Id?</Form.Label>
                     <Form.Control
                       type='String'
@@ -113,7 +113,7 @@ function RegisterScreen() {
                       value={referralId}
                       onChange={(e) => setReferralId(e.target.value)}
                     ></Form.Control>
-                  </Form.Group> */}
+                  </Form.Group>
 
                   <Button type='submit' variant='primary'>
                     Register

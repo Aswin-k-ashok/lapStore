@@ -66,6 +66,7 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: 'sample name',
     price: 0,
+    discountPrice: 0,
     user: req.user._id,
     image: 'sample.jpg',
     images: [],
@@ -84,13 +85,12 @@ const createProduct = asyncHandler(async (req, res) => {
 //@access priveate/admin
 
 const updateProduct = asyncHandler(async (req, res) => {
-  console.log(req.body)
   const { name, price, image, description, brand, category, countInStock } =
     req.body
 
   let images = []
 
-  if (images) {
+  if (req.body.images) {
     if (typeof req.body.images === 'string') {
       images.push(req.body.images)
     } else {
@@ -119,12 +119,16 @@ const updateProduct = asyncHandler(async (req, res) => {
   if (product) {
     product.name = name
     product.price = price
+    product.discountPrice = discountPrice
     product.image = image
     product.extraImages = req.body.images
+    req.body.images.length > 0 ? req.body.images : product.extraImages
+
     product.description = description
     product.brand = brand
     product.category = category
     product.countInStock = countInStock
+    product.discountPrice = discountPrice
 
     const updatedProduct = await product.save()
 
