@@ -85,10 +85,20 @@ const createProduct = asyncHandler(async (req, res) => {
 //@access priveate/admin
 
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, price, image, description, brand, category, countInStock } =
-    req.body
+  const {
+    name,
+    price,
+    image,
+    description,
+    brand,
+    category,
+    countInStock,
+    discountPrice,
+  } = req.body
 
   let images = []
+
+  console.log(req.body)
 
   if (req.body.images) {
     if (typeof req.body.images === 'string') {

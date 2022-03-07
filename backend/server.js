@@ -8,6 +8,7 @@ import cloudinary from 'cloudinary'
 import fileupload from 'express-fileupload'
 import shortid from 'shortid'
 import morgan from 'morgan'
+import bodypasrser from 'body-parser'
 import connectDB from './config/db.js'
 import productRoute from './routes/productRoutes.js'
 import userRoute from './routes/userRoutes.js'
@@ -119,7 +120,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-// app.use(bodypasrser.urlencoded({ extended: true }))
+app.use(bodypasrser.urlencoded({ extended: true }))
 
 app.use(notFound)
 
